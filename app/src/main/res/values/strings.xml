@@ -5,4 +5,6 @@
     <string name="transactions">%1d\nтранзакций</string>
     <string name="addresses">%1d\n
         адресов</string>
+
+    <string name="no_internet_connection">Нет соединения с интернетом</string>
 </resources>
