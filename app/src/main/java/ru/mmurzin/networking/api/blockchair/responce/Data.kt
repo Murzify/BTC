@@ -28,7 +28,7 @@ data class Data(
     val mempool_outputs: Int,
     val mempool_size: Int,
     val mempool_total_fee_usd: Double,
-    val mempool_tps: Int,
+    val mempool_tps: Float,
     val mempool_transactions: Int,
     val next_difficulty_estimate: Long,
     val next_retarget_time_estimate: String,

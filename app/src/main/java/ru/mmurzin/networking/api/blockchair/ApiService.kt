@@ -1,4 +1,4 @@
-package ru.mmurzin.networking
+package ru.mmurzin.networking.api.blockchair
 
 import retrofit2.Call
 import retrofit2.http.GET

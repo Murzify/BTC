@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/info_page"
+        android:enabled="true"
+        android:icon="@drawable/ic_info"
+        android:title="" />
+    <item
+        android:id="@+id/transaction_page"
+        android:enabled="true"
+        android:icon="@drawable/ic_transaction_arrow"
+        android:title=""
+        />
+    <item
+        android:id="@+id/wallet_page"
+        android:enabled="true"
+        android:icon="@drawable/ic_wallet"
+        android:title=""
+        />
+    <item
+        android:id="@+id/me_page"
+        android:enabled="true"
+        android:icon="@drawable/ic_user"
+        android:title=""
+        />
+</menu>
