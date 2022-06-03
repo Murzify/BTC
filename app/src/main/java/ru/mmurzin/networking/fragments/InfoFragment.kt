@@ -6,8 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.*
 import retrofit2.awaitResponse
 import ru.mmurzin.networking.MyViewModel
@@ -25,9 +25,9 @@ class InfoFragment : Fragment(), CoroutineScope {
     // Inherit CoroutineScope должен инициализировать переменную coroutineContext
     // Это стандартный метод записи, + на самом деле метод plus, указывающий задание впереди, используемый для управления сопрограммами, за которым следуют диспетчеры, определяющие поток для запуска
     override val coroutineContext: CoroutineContext
-        get() = job + Dispatchers.Main
+    get() = job + Dispatchers.Main
 
-    private val myViewModel: MyViewModel by lazy { ViewModelProvider(this).get(MyViewModel::class.java) }
+    private val myViewModel: MyViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,7 +54,7 @@ class InfoFragment : Fragment(), CoroutineScope {
 
                 if (result.isSuccessful) {
                     result.body()?.also {
-                        myViewModel.updateData(it)
+                        myViewModel.updateInfo(it)
                     }
                 }
                 loadLoopData()
@@ -67,8 +67,8 @@ class InfoFragment : Fragment(), CoroutineScope {
     override fun onStart() {
         super.onStart()
         binding.apply {
-            myViewModel.repo.observe(viewLifecycleOwner, Observer{
-                priceBtcUsd.text = getString(R.string.price, it.context.market_price_usd)
+            myViewModel.info.observe(viewLifecycleOwner, Observer{
+                priceBtcUsd.text = getString(R.string.btc_price, it.context.market_price_usd)
                 blocks.text = getString(R.string.blocks, it.data.blocks)
                 transactions.text = getString(R.string.transactions, it.data.transactions)
                 addresses.text = getString(R.string.addresses, it.data.hodling_addresses)
@@ -94,7 +94,7 @@ class InfoFragment : Fragment(), CoroutineScope {
             }
             if (result.isSuccessful) {
                 result.body()?.also {
-                    myViewModel.updateData(it)
+                    myViewModel.updateInfo(it)
                 }
             }
 

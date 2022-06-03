@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">BTC</string>
-    <string name="price">%1d $</string>
+    <string name="btc_price">%1d $</string>
     <string name="blocks">%1d\nблоков</string>
     <string name="transactions">%1d\nтранзакций</string>
     <string name="addresses">%1d\n
@@ -9,5 +9,27 @@
     <string name="fee_format">%1d sat/byte</string>
 
     <string name="no_internet_connection">Нет соединения с интернетом</string>
+    <string name="hash">Hash</string>
+    <string name="paste">Вставить</string>
+    <string name="unavailable">Не подтверждена</string>
+    <string name="available">Подтверждена</string>
+    <string name="time">Время:</string>
+    <string name="size">Размер:</string>
+    <string name="data_size">%1d байт</string>
+    <string name="weight">Вес:</string>
+    <string name="status_transaction">Статус:</string>
+    <string name="fee">Комиссия:</string>
+    <string name="num_block">Номер блока:</string>
+    <string name="inputs">Входы</string>
+    <string name="outs">Выходы</string>
+    <string name="address_name">Адрес:</string>
+    <string name="price_name">"Стоимость: "</string>
+    <string name="witness_name">Witness:</string>
+    <string name="script">"Script: "</string>
+    <string name="copy_description">Копировать</string>
+    <string name="price_transaction">%1$,.8f BTC</string>
+    <string name="general_input">Общий вход:</string>
+    <string name="general_out">Общий выход:</string>
+    <string name="hash_error">Введите правильный хэш</string>
 
 </resources>
