@@ -1,10 +1,10 @@
-package ru.mmurzin.networking.api.blockchainInfo
+package ru.mmurzin.btc.api.blockchainInfo
 
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
-import ru.mmurzin.networking.api.blockchainInfo.responce.Address
-import ru.mmurzin.networking.api.blockchainInfo.responce.Transaction
+import ru.mmurzin.btc.api.blockchainInfo.responce.Address
+import ru.mmurzin.btc.api.blockchainInfo.responce.Transaction
 
 interface ApiService {
     @GET("/rawaddr/{address}")

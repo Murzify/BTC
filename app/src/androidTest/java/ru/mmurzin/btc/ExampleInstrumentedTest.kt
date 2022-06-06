@@ -1,4 +1,4 @@
-package ru.mmurzin.networking
+package ru.mmurzin.btc
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

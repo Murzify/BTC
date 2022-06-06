@@ -1,4 +1,4 @@
-package ru.mmurzin.networking
+package ru.mmurzin.btc
 
 
 import android.content.ClipData
@@ -8,22 +8,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import ru.mmurzin.networking.api.blockchainInfo.responce.Input
-import ru.mmurzin.networking.databinding.InputOutItemBinding
+import ru.mmurzin.btc.api.blockchainInfo.responce.Out
+import ru.mmurzin.btc.databinding.InputOutItemBinding
 
-class InputsAdapter: RecyclerView.Adapter<InputsAdapter.InputsHolder>() {
-    val inputs = ArrayList<Input>()
+class OutsAdapter: RecyclerView.Adapter<OutsAdapter.InputsHolder>() {
+    private val outs = ArrayList<Out>()
 
     class InputsHolder(item: View, context: Context): RecyclerView.ViewHolder(item){
-        val binding = InputOutItemBinding.bind(item)
-        val con = context
-        fun bind(input: Input){
+        private val binding = InputOutItemBinding.bind(item)
+        private val con = context
+        fun bind(out: Out){
             val clipboard = con.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             binding.apply {
-                witness.text = input.witness
-                script.text = input.prev_out.script
-                address.text = input.prev_out.addr
-                val value = input.prev_out.value.toDouble() / 100000000
+                witnessRow.visibility = View.GONE
+                script.text = out.script
+                address.text = out.addr
+                val value = out.value.toDouble() / 100000000
                 price.text = con.getString(
                     R.string.price_transaction,
                     value)
@@ -42,7 +42,7 @@ class InputsAdapter: RecyclerView.Adapter<InputsAdapter.InputsHolder>() {
 
             }
         }
-        fun copyData(clipboard: ClipboardManager, label: String, text: String){
+        private fun copyData(clipboard: ClipboardManager, label: String, text: String){
             val clip: ClipData = ClipData.newPlainText(label, text)
             clipboard.setPrimaryClip(clip)
         }
@@ -53,19 +53,19 @@ class InputsAdapter: RecyclerView.Adapter<InputsAdapter.InputsHolder>() {
     }
 
     override fun onBindViewHolder(holder: InputsHolder, position: Int) {
-        holder.bind(inputs[position])
+        holder.bind(outs[position])
     }
 
     override fun getItemCount(): Int {
-        return inputs.size
+        return outs.size
     }
 
-    fun addInput(input: Input){
-        inputs.add(input)
-        notifyDataSetChanged()
+    fun addOut(out: Out){
+        outs.add(out)
+        notifyItemChanged(itemCount + 1)
     }
     fun clear(){
-        inputs.clear()
+        outs.clear()
     }
 
 }

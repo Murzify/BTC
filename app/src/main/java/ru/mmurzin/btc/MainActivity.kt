@@ -1,21 +1,10 @@
-package ru.mmurzin.networking
+package ru.mmurzin.btc
 
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.navigation.NavigationBarView
-import kotlinx.coroutines.*
-import retrofit2.awaitResponse
-import ru.mmurzin.networking.api.Apifactory.blockchair
-import ru.mmurzin.networking.databinding.ActivityMainBinding
-import ru.mmurzin.networking.fragments.InfoFragment
-import ru.mmurzin.networking.fragments.TransactionFragment
-import kotlin.coroutines.CoroutineContext
+import ru.mmurzin.btc.databinding.ActivityMainBinding
+import ru.mmurzin.btc.fragments.InfoFragment
+import ru.mmurzin.btc.fragments.TransactionFragment
 
 
 class MainActivity : AppCompatActivity(){

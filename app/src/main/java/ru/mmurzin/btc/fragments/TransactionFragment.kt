@@ -1,4 +1,4 @@
-package ru.mmurzin.networking.fragments
+package ru.mmurzin.btc.fragments
 
 import android.content.ClipboardManager
 import android.content.Context
@@ -6,25 +6,21 @@ import android.graphics.Color
 import android.os.Build
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 
 
 import kotlinx.coroutines.*
-import retrofit2.awaitResponse
-import ru.mmurzin.networking.InputsAdapter
-import ru.mmurzin.networking.MyViewModel
-import ru.mmurzin.networking.OutsAdapter
-import ru.mmurzin.networking.R
-import ru.mmurzin.networking.api.Apifactory
-import ru.mmurzin.networking.databinding.FragmentTransactionBinding
+import ru.mmurzin.btc.InputsAdapter
+import ru.mmurzin.btc.MyViewModel
+import ru.mmurzin.btc.OutsAdapter
+import ru.mmurzin.btc.R
+import ru.mmurzin.btc.databinding.FragmentTransactionBinding
 import java.sql.Timestamp
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -60,7 +56,7 @@ class TransactionFragment : Fragment(), CoroutineScope {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentTransactionBinding.inflate(inflater)
 
         return binding.root
@@ -126,25 +122,26 @@ class TransactionFragment : Fragment(), CoroutineScope {
                 size.text = getString(R.string.data_size, transaction.size)
                 numBlock.text = transaction.block_index.toString()
 
-                var gen_input: Long = 0
-                var gen_out: Long = 0
+                //общие входы и выходы
+                var genInput: Long = 0
+                var genOut: Long = 0
 
                 for (input in transaction.inputs){
-                    gen_input += input.prev_out.value
+                    genInput += input.prev_out.value
                 }
                 for (out in transaction.out){
-                    gen_out += out.value
+                    genOut += out.value
                 }
 
                 generalInput.text = getString(
                     R.string.price_transaction,
-                    gen_input.toDouble() / 100000000)
+                    genInput.toDouble() / 100000000)
 
                 generalOut.text = getString(
                     R.string.price_transaction,
-                    gen_out.toDouble() / 100000000)
+                    genOut.toDouble() / 100000000)
 
-                val fee: Long = gen_input - gen_out
+                val fee: Long = genInput - genOut
                 binding.fee.text = getString(
                     R.string.price_transaction,
                     fee.toDouble() / 100000000)

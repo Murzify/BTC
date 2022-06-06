@@ -1,19 +1,18 @@
-package ru.mmurzin.networking.fragments
+package ru.mmurzin.btc.fragments
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import kotlinx.coroutines.*
 import retrofit2.awaitResponse
-import ru.mmurzin.networking.MyViewModel
-import ru.mmurzin.networking.R
-import ru.mmurzin.networking.api.Apifactory
-import ru.mmurzin.networking.databinding.FragmentInfoBinding
+import ru.mmurzin.btc.MyViewModel
+import ru.mmurzin.btc.R
+import ru.mmurzin.btc.api.Apifactory
+import ru.mmurzin.btc.databinding.FragmentInfoBinding
 import kotlin.coroutines.CoroutineContext
 
 
@@ -32,7 +31,7 @@ class InfoFragment : Fragment(), CoroutineScope {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentInfoBinding.inflate(inflater)
         return binding.root
     }
@@ -67,13 +66,14 @@ class InfoFragment : Fragment(), CoroutineScope {
     override fun onStart() {
         super.onStart()
         binding.apply {
-            myViewModel.info.observe(viewLifecycleOwner, Observer{
+            myViewModel.info.observe(viewLifecycleOwner) {
                 priceBtcUsd.text = getString(R.string.btc_price, it.context.market_price_usd)
                 blocks.text = getString(R.string.blocks, it.data.blocks)
                 transactions.text = getString(R.string.transactions, it.data.transactions)
                 addresses.text = getString(R.string.addresses, it.data.hodling_addresses)
-                fee.text = getString(R.string.fee_format, it.data.suggested_transaction_fee_per_byte_sat)
-            })
+                fee.text =
+                    getString(R.string.fee_format, it.data.suggested_transaction_fee_per_byte_sat)
+            }
         }
     }
 

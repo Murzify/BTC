@@ -1,4 +1,4 @@
-package ru.mmurzin.networking.api.blockchainInfo.responce
+package ru.mmurzin.btc.api.blockchainInfo.responce
 
 data class Transaction(
     val block_height: Int?,

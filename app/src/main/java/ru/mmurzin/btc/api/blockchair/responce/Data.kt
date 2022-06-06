@@ -1,4 +1,4 @@
-package ru.mmurzin.networking.api.blockchair.responce
+package ru.mmurzin.btc.api.blockchair.responce
 
 data class Data(
     val average_transaction_fee_24h: Int,

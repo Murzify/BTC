@@ -1,16 +1,15 @@
-package ru.mmurzin.networking
+package ru.mmurzin.btc
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.withContext
 import retrofit2.Response
 import retrofit2.awaitResponse
-import ru.mmurzin.networking.api.Apifactory
-import ru.mmurzin.networking.api.blockchainInfo.responce.Transaction
-import ru.mmurzin.networking.api.blockchair.responce.Repo
+import ru.mmurzin.btc.api.Apifactory
+import ru.mmurzin.btc.api.blockchainInfo.responce.Transaction
+import ru.mmurzin.btc.api.blockchair.responce.Repo
 import kotlin.coroutines.CoroutineContext
 
 class MyViewModel: ViewModel(), CoroutineScope {

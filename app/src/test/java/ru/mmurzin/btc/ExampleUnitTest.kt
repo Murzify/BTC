@@ -1,4 +1,4 @@
-package ru.mmurzin.networking
+package ru.mmurzin.btc
 
 import org.junit.Test
 

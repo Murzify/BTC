@@ -9,7 +9,7 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/bitcoin"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Networking">
+        android:theme="@style/Theme.BTC">
         <activity
             android:name=".MainActivity"
             android:exported="true">
