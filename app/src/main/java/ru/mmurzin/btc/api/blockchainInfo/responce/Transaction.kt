@@ -4,7 +4,7 @@ data class Transaction(
     val block_height: Int?,
     val block_index: Int?,
     val double_spend: Boolean,
-    val fee: Int,
+    var fee: Double,
     val hash: String,
     val inputs: List<Input>,
     val lock_time: Int,
@@ -17,7 +17,13 @@ data class Transaction(
     val vin_sz: Int,
     val vout_sz: Int,
     val weight: Int,
-    val error: String
+    val error: String,
+
+    //generate in ViewModel
+    var f_time: String,
+    var status: String,
+    var gen_input: Double = 0.0,
+    var gen_out: Double = 0.0
 )
 
 data class Input(

@@ -85,7 +85,7 @@ class TransactionFragment : Fragment(), CoroutineScope {
         }
 
         // отслеживание нажатия галочки на клавиатуре
-        binding.hashInput.setOnEditorActionListener { textView, i, keyEvent ->
+        binding.hashInput.setOnEditorActionListener { _, i, _ ->
 
             if (i == EditorInfo.IME_ACTION_DONE){
                 setDataTransaction()
@@ -98,53 +98,36 @@ class TransactionFragment : Fragment(), CoroutineScope {
         super.onStart()
         binding.apply {
             myViewModel.transaction.observe(viewLifecycleOwner) {   transaction ->
-                // проверка статуса транзакции
-                when (transaction.block_index) {
-                    null -> {
-                        statusTransaction.text = getString(R.string.unavailable)
-                        statusTransaction.setTextColor(Color.RED)
-                    }
-                    else -> {
-                        statusTransaction.text = getString(R.string.available)
-                        statusTransaction.setTextColor(Color.GREEN)
-                    }
+                //статус транзакции
+                when (transaction.status){
+                    getString(R.string.available) -> statusTransaction.setTextColor(Color.GREEN)
+                    getString(R.string.unavailable) -> statusTransaction.setTextColor(Color.RED)
                 }
-                // форматирование времени транзакции
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    time.text =
-                        Timestamp(transaction.time * 1000)
-                            .toInstant()
-                            .atZone(ZoneId.systemDefault())
-                            .format(
-                                DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")
-                            )
-                }
+                statusTransaction.text = transaction.status
+
+                // форматированное время транзакции
+                time.text = transaction.f_time
+
+                //размер блока
                 size.text = getString(R.string.data_size, transaction.size)
+
+                // номер блока
                 numBlock.text = transaction.block_index.toString()
 
-                //общие входы и выходы
-                var genInput: Long = 0
-                var genOut: Long = 0
-
-                for (input in transaction.inputs){
-                    genInput += input.prev_out.value
-                }
-                for (out in transaction.out){
-                    genOut += out.value
-                }
-
+                // общие входы и выходы
                 generalInput.text = getString(
                     R.string.price_transaction,
-                    genInput.toDouble() / 100000000)
+                    transaction.gen_input)
 
                 generalOut.text = getString(
                     R.string.price_transaction,
-                    genOut.toDouble() / 100000000)
+                    transaction.gen_out)
 
-                val fee: Long = genInput - genOut
+                // комиссия
                 binding.fee.text = getString(
                     R.string.price_transaction,
-                    fee.toDouble() / 100000000)
+                    transaction.fee)
+
                 //очистка списка входов и выходов перед выводом новых
                 inputsAdapter.clear()
                 outsAdapter.clear()

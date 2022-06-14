@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">"BTC"</string>
+    <string name="btc_price">"%1d $"</string>
+    <string name="blocks">"%1d
+blocks"</string>
+    <string name="transactions">"%1d
+transactions"</string>
+    <string name="addresses">"%1d
+addresses"</string>
+    <string name="suggested_transaction_fee_per_byte_sat">"Recommended fee:"</string>
+    <string name="fee_format">"%1d sat/byte"</string>
+    <string name="no_internet_connection">"No internet connection"</string>
+    <string name="hash">"Hash"</string>
+    <string name="paste">"Paste"</string>
+    <string name="unavailable">"Unconfirmed"</string>
+    <string name="available">"Confirmed"</string>
+    <string name="time">"Time:"</string>
+    <string name="size">"Block size:"</string>
+    <string name="data_size">"%1d bytes"</string>
+    <string name="weight">"The weight:"</string>
+    <string name="status_transaction">"Status:"</string>
+    <string name="fee">"Fee:"</string>
+    <string name="num_block">"Block number:"</string>
+    <string name="inputs">"Inputs"</string>
+    <string name="outputs">"Outputs"</string>
+    <string name="address_name">"Address:"</string>
+    <string name="price_name">"Price:"</string>
+    <string name="witness_name">"Witness:"</string>
+    <string name="script">"Script:"</string>
+    <string name="copy_description">"Copy"</string>
+    <string name="price_transaction">"%1$,.8f BTC"</string>
+    <string name="general_input">"General input:"</string>
+    <string name="general_out">"General out:"</string>
+    <string name="hash_error">"Enter the correct hash"</string>
+</resources>

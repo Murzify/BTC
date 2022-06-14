@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -40,7 +40,7 @@
                     android:ellipsize="start"
                     android:maxEms="5"
                     android:maxLines="1"
-                    android:text="bc1qrn9v30gf7m24kqvfl5m7vqwzreckfad97hfmux" />
+                    tools:text="bc1qrn9v30gf7m24kqvfl5m7vqwzreckfad97hfmux" />
 
                 <Button
                     android:id="@+id/copy_address"
@@ -75,7 +75,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="5dp"
                     android:layout_marginBottom="10dp"
-                    android:text=" 0.00122000 BTC" />
+                    tools:text=" 0.00122000 BTC" />
             </TableRow>
 
             <TableRow
@@ -99,7 +99,7 @@
                     android:ellipsize="start"
                     android:maxEms="5"
                     android:maxLines="1"
-                    android:text=" 3045022100a161069b235605e6dd297c987aa6f550b6101f58fd4edc5a28974937d6a5f4c002204369f6ae20291b0202d93e6b0ee9b1222177b15f4d1fe50ef68e84e7fa4be2b001 03d737cef93b539758348d7fddc453279c227987506da78bb3abbd5f477fe67163" />
+                    tools:text=" 3045022100a161069b235605e6dd297c987aa6f550b6101f58fd4edc5a28974937d6a5f4c002204369f6ae20291b0202d93e6b0ee9b1222177b15f4d1fe50ef68e84e7fa4be2b001 03d737cef93b539758348d7fddc453279c227987506da78bb3abbd5f477fe67163" />
 
                 <Button
                     android:id="@+id/copy_witness"
@@ -133,7 +133,7 @@
                     android:ellipsize="start"
                     android:maxEms="5"
                     android:maxLines="1"
-                    android:text="0014aa44320345120377b4061fd7b7d5bdd155f0c2aa" />
+                    tools:text="0014aa44320345120377b4061fd7b7d5bdd155f0c2aa" />
 
                 <Button
                     android:id="@+id/copy_script"
