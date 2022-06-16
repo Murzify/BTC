@@ -4,7 +4,7 @@
     <string name="btc_price">"%1d $"</string>
     <string name="blocks">"%1d
 blocks"</string>
-    <string name="transactions">"%1d
+    <string name="info_transactions">"%1d
 transactions"</string>
     <string name="addresses">"%1d
 addresses"</string>

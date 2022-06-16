@@ -69,7 +69,7 @@ class InfoFragment : Fragment(), CoroutineScope {
             myViewModel.info.observe(viewLifecycleOwner) {
                 priceBtcUsd.text = getString(R.string.btc_price, it.context.market_price_usd)
                 blocks.text = getString(R.string.blocks, it.data.blocks)
-                transactions.text = getString(R.string.transactions, it.data.transactions)
+                transactions.text = getString(R.string.info_transactions, it.data.transactions)
                 addresses.text = getString(R.string.addresses, it.data.hodling_addresses)
                 fee.text =
                     getString(R.string.fee_format, it.data.suggested_transaction_fee_per_byte_sat)
