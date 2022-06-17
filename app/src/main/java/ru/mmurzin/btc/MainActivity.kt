@@ -4,7 +4,6 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
@@ -110,20 +109,12 @@ class MainActivity : AppCompatActivity(){
 
     private fun isOnline(caps: NetworkCapabilities?): Boolean{
         if (caps != null) {
-            if (caps.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-                Log.i("Internet", "NetworkCapabilities.TRANSPORT_CELLULAR")
-                return true
-            } else if (caps.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-                Log.i("Internet", "NetworkCapabilities.TRANSPORT_WIFI")
-                return true
-            } else if (caps.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
-                Log.i("Internet", "NetworkCapabilities.TRANSPORT_ETHERNET")
+            if (caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)) {
                 return true
             }
         }
         return false
     }
-
 
 
 }
