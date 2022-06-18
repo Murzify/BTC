@@ -40,8 +40,6 @@ class TransactionFragment : Fragment(), CoroutineScope {
     private lateinit var binding: FragmentTransactionBinding
 
     private lateinit var job: Job
-    // Inherit CoroutineScope должен инициализировать переменную coroutineContext
-    // Это стандартный метод записи, + на самом деле метод plus, указывающий задание впереди, используемый для управления сопрограммами, за которым следуют диспетчеры, определяющие поток для запуска
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.Main
 

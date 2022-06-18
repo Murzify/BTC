@@ -8,6 +8,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import com.robinhood.spark.SparkAdapter
 import ru.mmurzin.btc.databinding.ActivityMainBinding
 import ru.mmurzin.btc.fragments.InfoFragment
 import ru.mmurzin.btc.fragments.TransactionFragment
@@ -82,11 +83,12 @@ class MainActivity : AppCompatActivity(){
                         noConnection.visibility = View.GONE
                         bottomNavigationView.selectedItemId = R.id.info_page
                     }
+                    supportFragmentManager.commit {
+                        replace<InfoFragment>(R.id.fragment_view)
+                        setReorderingAllowed(true)
+                    }
                 }
-                supportFragmentManager.commit {
-                    replace<InfoFragment>(R.id.fragment_view)
-                    setReorderingAllowed(true)
-                }
+
             }
 
             override fun onLost(network : Network) {
@@ -115,6 +117,4 @@ class MainActivity : AppCompatActivity(){
         }
         return false
     }
-
-
 }

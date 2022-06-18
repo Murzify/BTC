@@ -5,7 +5,7 @@ data class Context(
     val cache: Cache,
     val code: Int,
     val full_time: Double,
-    val market_price_usd: Int,
+    val market_price_usd: Double,
     val render_time: Double,
     val request_cost: Int,
     val servers: String,

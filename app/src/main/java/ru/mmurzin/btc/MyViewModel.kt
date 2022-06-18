@@ -10,12 +10,15 @@ import kotlinx.coroutines.Job
 import retrofit2.Response
 import retrofit2.awaitResponse
 import ru.mmurzin.btc.api.Apifactory
+import ru.mmurzin.btc.api.blockchainInfo.responce.Chart
 import ru.mmurzin.btc.api.blockchainInfo.responce.Transaction
+import ru.mmurzin.btc.api.blockchainInfo.responce.Value
 import ru.mmurzin.btc.api.blockchair.responce.Repo
 import java.sql.Timestamp
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import kotlin.coroutines.CoroutineContext
+import kotlin.math.abs
 
 class MyViewModel(application: Application) : AndroidViewModel(application), CoroutineScope {
 
@@ -27,6 +30,7 @@ class MyViewModel(application: Application) : AndroidViewModel(application), Cor
 
     val transaction = MutableLiveData<Transaction>()
     val info = MutableLiveData<Repo>()
+    val chartData = MutableLiveData<Chart>()
 
     fun updateInfo(data: Repo){
         info.value = data
@@ -34,6 +38,33 @@ class MyViewModel(application: Application) : AndroidViewModel(application), Cor
 
     private fun updateTransaction(data: Transaction){
         transaction.postValue(data)
+    }
+
+    suspend fun getChart(){
+        val result = Apifactory.apiBlockchainInfo.getChart(
+            mapOf(
+                "timespan" to "1months",
+                "rollingAverage" to "1days",
+                "format" to "json"
+            )
+        ).awaitResponse()
+        if (result.isSuccessful){
+            val data = result.body()!!
+            result.body()!!.values.also { values ->
+                // вычисление изменения курса биткоина в процентах
+                val start = values[0].y
+                val end = values[values.size - 1].y
+                var isUp = false
+                if (start < end){
+                    isUp = true
+                }
+                val percent = abs((start-end)/((start+end)/2)) * 100
+                data.isUp = isUp
+                data.percent = percent
+            }
+            chartData.postValue(result.body())
+        }
+
     }
 
     suspend fun getDataTransaction(hash: String): Response<Transaction> {
