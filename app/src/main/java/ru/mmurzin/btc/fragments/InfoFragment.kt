@@ -2,26 +2,21 @@ package ru.mmurzin.btc.fragments
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.robinhood.spark.SparkAdapter
 import kotlinx.coroutines.*
-import retrofit2.awaitResponse
 import ru.mmurzin.btc.MyViewModel
 import ru.mmurzin.btc.R
-import ru.mmurzin.btc.api.Apifactory
+import ru.mmurzin.btc.adapters.ChartAdapter
 import ru.mmurzin.btc.api.blockchainInfo.responce.Value
 import ru.mmurzin.btc.databinding.FragmentInfoBinding
 import java.sql.Timestamp
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import kotlin.coroutines.CoroutineContext
-import kotlin.reflect.typeOf
 
 
 class InfoFragment : Fragment(), CoroutineScope {
@@ -46,7 +41,6 @@ class InfoFragment : Fragment(), CoroutineScope {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         job = Job()
-
         binding.apply {
             chart.adapter = chartAdapter
             chart.isScrubEnabled = true
@@ -70,21 +64,15 @@ class InfoFragment : Fragment(), CoroutineScope {
                 addresses.text = "..."
                 transactions.text = "..."
                 progressBar.visibility = View.VISIBLE
-                val result = withContext(Dispatchers.IO) {
-                    Apifactory.blockchair.getBlockchainStats("bitcoin").awaitResponse()
+                withContext(Dispatchers.IO) {
+                    myViewModel.getDataInfo()
                 }
                 withContext(Dispatchers.IO){
                     myViewModel.getChart()
                 }
-                Log.d("mark", result.toString())
                 progressBar.visibility = View.GONE
 
-                if (result.isSuccessful) {
-                    result.body()?.also {
-                        myViewModel.updateInfo(it)
-                    }
-                }
-                loadLoopData()
+                myViewModel.loadLoopData()
             }
 
 
@@ -116,51 +104,6 @@ class InfoFragment : Fragment(), CoroutineScope {
     override fun onDestroy() {
         super.onDestroy()
         job.cancel()
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance() = InfoFragment()
-    }
-
-    private suspend fun loadLoopData(){
-        while (true){
-            val result = withContext(Dispatchers.IO) {
-                Apifactory.blockchair.getBlockchainStats("bitcoin").awaitResponse()
-            }
-            if (result.isSuccessful) {
-                result.body()?.also {
-                    myViewModel.updateInfo(it)
-                }
-            }
-
-            delay(30000)
-        }
-    }
-}
-
-class ChartAdapter: SparkAdapter(){
-    private var data:List<Value> = listOf()
-
-    fun setData(list: List<Value>){
-        data = list
-        notifyDataSetChanged()
-    }
-
-    override fun getCount(): Int {
-        return data.size
-    }
-
-    override fun getItem(index: Int): Any {
-        return data[index]
-    }
-
-    override fun getY(index: Int): Float {
-        return data[index].y.toFloat()
-    }
-
-    override fun getX(index: Int): Float {
-        return data[index].x.toFloat()
     }
 
 }

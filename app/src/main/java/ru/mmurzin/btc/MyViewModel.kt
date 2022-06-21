@@ -4,15 +4,12 @@ import android.app.Application
 import android.os.Build
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
 import retrofit2.Response
 import retrofit2.awaitResponse
 import ru.mmurzin.btc.api.Apifactory
 import ru.mmurzin.btc.api.blockchainInfo.responce.Chart
 import ru.mmurzin.btc.api.blockchainInfo.responce.Transaction
-import ru.mmurzin.btc.api.blockchainInfo.responce.Value
 import ru.mmurzin.btc.api.blockchair.responce.Repo
 import java.sql.Timestamp
 import java.time.ZoneId
@@ -33,11 +30,35 @@ class MyViewModel(application: Application) : AndroidViewModel(application), Cor
     val chartData = MutableLiveData<Chart>()
 
     fun updateInfo(data: Repo){
-        info.value = data
+        info.postValue(data)
     }
 
     private fun updateTransaction(data: Transaction){
         transaction.postValue(data)
+    }
+
+    suspend fun getDataInfo() {
+        val result = Apifactory.blockchair.getBlockchainStats("bitcoin").awaitResponse()
+        if (result.isSuccessful){
+            result.body()?.also {
+                updateInfo(it)
+            }
+        }
+    }
+
+    suspend fun loadLoopData(){
+        while (true){
+            val result = withContext(Dispatchers.IO) {
+                Apifactory.blockchair.getBlockchainStats("bitcoin").awaitResponse()
+            }
+            if (result.isSuccessful) {
+                result.body()?.also {
+                    updateInfo(it)
+                }
+            }
+
+            delay(30000)
+        }
     }
 
     suspend fun getChart(){

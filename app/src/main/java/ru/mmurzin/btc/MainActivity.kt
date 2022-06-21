@@ -8,7 +8,6 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
-import com.robinhood.spark.SparkAdapter
 import ru.mmurzin.btc.databinding.ActivityMainBinding
 import ru.mmurzin.btc.fragments.InfoFragment
 import ru.mmurzin.btc.fragments.TransactionFragment
@@ -27,12 +26,7 @@ class MainActivity : AppCompatActivity(){
         val currentNetwork = connectivityManager.activeNetwork
         val caps = connectivityManager.getNetworkCapabilities(currentNetwork)
 
-        if (isOnline(caps)){
-            supportFragmentManager.commit {
-                replace<InfoFragment>(R.id.fragment_view)
-                setReorderingAllowed(true)
-            }
-        } else {
+        if (!isOnline(caps)){
             binding.apply {
                 bottomNavigationView.visibility = View.GONE
                 animationView.visibility = View.VISIBLE
@@ -45,10 +39,10 @@ class MainActivity : AppCompatActivity(){
             when(item.itemId) {
                 //информация о биткоине, цена, кол-во блоков, кол-во транзакций...
                 R.id.info_page -> {
-                    supportFragmentManager.commit {
-                        replace<InfoFragment>(R.id.fragment_view)
-                        setReorderingAllowed(true)
-                    }
+                    supportFragmentManager
+                        .beginTransaction()
+                        .replace<InfoFragment>(R.id.fragment_view)
+                        .commitAllowingStateLoss()
                     true
                 }
                 //получить информацию о транзакции по хэшу
@@ -82,10 +76,6 @@ class MainActivity : AppCompatActivity(){
                         animationView.visibility = View.GONE
                         noConnection.visibility = View.GONE
                         bottomNavigationView.selectedItemId = R.id.info_page
-                    }
-                    supportFragmentManager.commit {
-                        replace<InfoFragment>(R.id.fragment_view)
-                        setReorderingAllowed(true)
                     }
                 }
 

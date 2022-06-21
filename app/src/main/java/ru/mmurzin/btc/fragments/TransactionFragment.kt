@@ -1,29 +1,23 @@
 package ru.mmurzin.btc.fragments
 
+
 import android.content.ClipboardManager
 import android.content.Context
 import android.graphics.Color
-import android.os.Build
-
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-
-
 import kotlinx.coroutines.*
-import ru.mmurzin.btc.InputsAdapter
 import ru.mmurzin.btc.MyViewModel
-import ru.mmurzin.btc.OutsAdapter
 import ru.mmurzin.btc.R
+import ru.mmurzin.btc.adapters.InputsAdapter
+import ru.mmurzin.btc.adapters.OutsAdapter
 import ru.mmurzin.btc.databinding.FragmentTransactionBinding
-import java.sql.Timestamp
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 import kotlin.coroutines.CoroutineContext
 
 private const val ARG_HASH = "hash"
