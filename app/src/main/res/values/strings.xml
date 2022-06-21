@@ -3,12 +3,13 @@
     <string name="no_internet_connection">Нет соединения с интернетом</string>
 
     <!-- info fragment -->
-    <string name="btc_price">%1d $</string>
+    <string name="btc_price">%.2f $</string>
     <string name="blocks">%1d\nблоков</string>
     <string name="info_transactions">%1d\nтранзакций</string>
     <string name="addresses">%1d\nадресов</string>
     <string name="suggested_transaction_fee_per_byte_sat">Рекомендуемая комиссия: </string>
     <string name="fee_format">%1d sat/byte</string>
+    <string name="text_spark">%.2f $ %s</string>
 
     <!-- transaction fragment -->
     <string name="hash">Хэш</string>

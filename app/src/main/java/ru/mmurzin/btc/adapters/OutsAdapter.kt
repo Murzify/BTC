@@ -1,4 +1,4 @@
-package ru.mmurzin.btc
+package ru.mmurzin.btc.adapters
 
 
 import android.content.ClipData
@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import ru.mmurzin.btc.R
 import ru.mmurzin.btc.api.blockchainInfo.responce.Out
 import ru.mmurzin.btc.databinding.InputOutItemBinding
 

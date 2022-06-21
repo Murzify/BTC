@@ -1,18 +1,21 @@
 package ru.mmurzin.btc.fragments
 
+import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import kotlinx.coroutines.*
-import retrofit2.awaitResponse
 import ru.mmurzin.btc.MyViewModel
 import ru.mmurzin.btc.R
-import ru.mmurzin.btc.api.Apifactory
+import ru.mmurzin.btc.adapters.ChartAdapter
+import ru.mmurzin.btc.api.blockchainInfo.responce.Value
 import ru.mmurzin.btc.databinding.FragmentInfoBinding
+import java.sql.Timestamp
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import kotlin.coroutines.CoroutineContext
 
 
@@ -21,12 +24,12 @@ class InfoFragment : Fragment(), CoroutineScope {
     private lateinit var binding: FragmentInfoBinding
 
     private lateinit var job: Job
-    // Inherit CoroutineScope должен инициализировать переменную coroutineContext
-    // Это стандартный метод записи, + на самом деле метод plus, указывающий задание впереди, используемый для управления сопрограммами, за которым следуют диспетчеры, определяющие поток для запуска
     override val coroutineContext: CoroutineContext
-    get() = job + Dispatchers.Main
+        get() = job + Dispatchers.Main
 
     private val myViewModel: MyViewModel by activityViewModels()
+
+    private val chartAdapter = ChartAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,26 +41,40 @@ class InfoFragment : Fragment(), CoroutineScope {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         job = Job()
-
         binding.apply {
+            chart.adapter = chartAdapter
+            chart.isScrubEnabled = true
+            chart.setScrubListener { value ->
+                if (value is Value){
+                    val date = Timestamp(value.x * 1000)
+                        .toInstant()
+                        .atZone(ZoneId.systemDefault())
+                        .format(
+                            DateTimeFormatter.ofPattern("dd.MM.yyyy")
+                        )
+                    sparkText.text = getString(
+                        R.string.text_spark,
+                        value.y,
+                        date
+                    )
+                }
+            }
             launch(Dispatchers.Main) {
                 blocks.text = "..."
                 addresses.text = "..."
                 transactions.text = "..."
                 progressBar.visibility = View.VISIBLE
-                val result = withContext(Dispatchers.IO) {
-                    Apifactory.blockchair.getBlockchainStats("bitcoin").awaitResponse()
+                withContext(Dispatchers.IO) {
+                    myViewModel.getDataInfo()
                 }
-                Log.d("mark", result.toString())
+                withContext(Dispatchers.IO){
+                    myViewModel.getChart()
+                }
                 progressBar.visibility = View.GONE
 
-                if (result.isSuccessful) {
-                    result.body()?.also {
-                        myViewModel.updateInfo(it)
-                    }
-                }
-                loadLoopData()
+                myViewModel.loadLoopData()
             }
+
 
         }
 
@@ -74,6 +91,13 @@ class InfoFragment : Fragment(), CoroutineScope {
                 fee.text =
                     getString(R.string.fee_format, it.data.suggested_transaction_fee_per_byte_sat)
             }
+            myViewModel.chartData.observe(viewLifecycleOwner) {
+                when(it.isUp){
+                    true -> chart.lineColor = Color.GREEN
+                    false -> chart.lineColor = Color.RED
+                }
+                chartAdapter.setData(it.values)
+            }
         }
     }
 
@@ -82,23 +106,4 @@ class InfoFragment : Fragment(), CoroutineScope {
         job.cancel()
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance() = InfoFragment()
-    }
-
-    private suspend fun loadLoopData(){
-        while (true){
-            val result = withContext(Dispatchers.IO) {
-                Apifactory.blockchair.getBlockchainStats("bitcoin").awaitResponse()
-            }
-            if (result.isSuccessful) {
-                result.body()?.also {
-                    myViewModel.updateInfo(it)
-                }
-            }
-
-            delay(30000)
-        }
-    }
 }

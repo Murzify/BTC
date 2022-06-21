@@ -26,12 +26,7 @@ class MainActivity : AppCompatActivity(){
         val currentNetwork = connectivityManager.activeNetwork
         val caps = connectivityManager.getNetworkCapabilities(currentNetwork)
 
-        if (isOnline(caps)){
-            supportFragmentManager.commit {
-                replace<InfoFragment>(R.id.fragment_view)
-                setReorderingAllowed(true)
-            }
-        } else {
+        if (!isOnline(caps)){
             binding.apply {
                 bottomNavigationView.visibility = View.GONE
                 animationView.visibility = View.VISIBLE
@@ -44,10 +39,10 @@ class MainActivity : AppCompatActivity(){
             when(item.itemId) {
                 //информация о биткоине, цена, кол-во блоков, кол-во транзакций...
                 R.id.info_page -> {
-                    supportFragmentManager.commit {
-                        replace<InfoFragment>(R.id.fragment_view)
-                        setReorderingAllowed(true)
-                    }
+                    supportFragmentManager
+                        .beginTransaction()
+                        .replace<InfoFragment>(R.id.fragment_view)
+                        .commitAllowingStateLoss()
                     true
                 }
                 //получить информацию о транзакции по хэшу
@@ -83,10 +78,7 @@ class MainActivity : AppCompatActivity(){
                         bottomNavigationView.selectedItemId = R.id.info_page
                     }
                 }
-                supportFragmentManager.commit {
-                    replace<InfoFragment>(R.id.fragment_view)
-                    setReorderingAllowed(true)
-                }
+
             }
 
             override fun onLost(network : Network) {
@@ -115,6 +107,4 @@ class MainActivity : AppCompatActivity(){
         }
         return false
     }
-
-
 }

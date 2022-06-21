@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">"BTC"</string>
-    <string name="btc_price">"%1d $"</string>
+    <string name="btc_price">%.2f $</string>
     <string name="blocks">"%1d
 blocks"</string>
     <string name="info_transactions">"%1d
@@ -33,4 +33,5 @@ addresses"</string>
     <string name="general_input">"General input:"</string>
     <string name="general_out">"General out:"</string>
     <string name="hash_error">"Enter the correct hash"</string>
+    <string name="text_spark">%.2f $  %s</string>
 </resources>
