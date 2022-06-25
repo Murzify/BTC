@@ -59,7 +59,7 @@ class TransactionFragment : Fragment(), CoroutineScope {
             val clipboard = activity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             binding.apply {
                 //если фрагмент был вызван с параметром
-                hash.let { hash ->
+                hash?.let { hash ->
                     hashInput.setText(hash)
                     setDataTransaction()
                 }
