@@ -34,5 +34,12 @@
     <string name="general_input">Общий вход:</string>
     <string name="general_out">Общий выход:</string>
     <string name="hash_error">Введите правильный хэш</string>
+    <string name="balance_addr">Баланс:</string>
+    <string name="total_received">Всего принял:</string>
+    <string name="total_sent">Всего отправил:</string>
+    <string name="total_transactions">Транзакции:</string>
+    <string name="addr_transactions">Транзакции</string>
+    <string name="address_error">Введите правильный адрес</string>
+    <string name="address">Адрес</string>
 
 </resources>

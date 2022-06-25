@@ -22,8 +22,8 @@ data class Transaction(
     //generate in ViewModel
     var f_time: String,
     var status: String,
-    var gen_input: Double = 0.0,
-    var gen_out: Double = 0.0
+    var f_input: Double = 0.0,
+    var f_out: Double = 0.0
 )
 
 data class Input(

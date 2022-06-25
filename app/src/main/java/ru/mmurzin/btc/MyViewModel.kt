@@ -8,6 +8,7 @@ import kotlinx.coroutines.*
 import retrofit2.Response
 import retrofit2.awaitResponse
 import ru.mmurzin.btc.api.Apifactory
+import ru.mmurzin.btc.api.blockchainInfo.responce.Address
 import ru.mmurzin.btc.api.blockchainInfo.responce.Chart
 import ru.mmurzin.btc.api.blockchainInfo.responce.Transaction
 import ru.mmurzin.btc.api.blockchair.responce.Repo
@@ -28,6 +29,7 @@ class MyViewModel(application: Application) : AndroidViewModel(application), Cor
     val transaction = MutableLiveData<Transaction>()
     val info = MutableLiveData<Repo>()
     val chartData = MutableLiveData<Chart>()
+    val address = MutableLiveData<Address>()
 
     fun updateInfo(data: Repo){
         info.postValue(data)
@@ -35,6 +37,20 @@ class MyViewModel(application: Application) : AndroidViewModel(application), Cor
 
     private fun updateTransaction(data: Transaction){
         transaction.postValue(data)
+    }
+
+    suspend fun getDataAddress(addr: String): Response<Address> {
+        val result = Apifactory.blockchainInfo.getAddressInfo(addr).awaitResponse()
+        if (result.isSuccessful) {
+            val data = result.body()!!
+            data.f_final_balance = data.final_balance.toDouble() / 100000000
+            data.f_total_received = data.total_received.toDouble() / 100000000
+            data.f_total_sent = data.total_sent.toDouble() / 100000000
+            result.body()?.let {
+                address.postValue(it)
+            }
+        }
+        return result
     }
 
     suspend fun getDataInfo() {
@@ -113,13 +129,13 @@ class MyViewModel(application: Application) : AndroidViewModel(application), Cor
 
             // общие входы и выходы
             for (input in data.inputs){
-                data.gen_input += input.prev_out.value.toDouble()
+                data.f_input += input.prev_out.value.toDouble()
             }
             for (out in data.out){
-                data.gen_out += out.value.toDouble()
+                data.f_out += out.value.toDouble()
             }
-            data.gen_out = data.gen_out / 100000000
-            data.gen_input = data.gen_input / 100000000
+            data.f_out = data.f_out / 100000000
+            data.f_input = data.f_input / 100000000
 
             // комиссия
             data.fee = data.fee / 100000000

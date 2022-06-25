@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import ru.mmurzin.btc.databinding.ActivityMainBinding
+import ru.mmurzin.btc.fragments.AddressFragment
 import ru.mmurzin.btc.fragments.InfoFragment
 import ru.mmurzin.btc.fragments.TransactionFragment
 
@@ -16,6 +17,8 @@ import ru.mmurzin.btc.fragments.TransactionFragment
 class MainActivity : AppCompatActivity(){
 
     private lateinit var binding: ActivityMainBinding
+    var ifFV = R.id.fragment_view
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +58,10 @@ class MainActivity : AppCompatActivity(){
                 }
                 //получить информцию об адресе
                 R.id.wallet_page -> {
+                    supportFragmentManager
+                        .beginTransaction()
+                        .replace<AddressFragment>(R.id.fragment_view)
+                        .commitAllowingStateLoss()
                     true
                 }
                 //настройки, контакты, история...

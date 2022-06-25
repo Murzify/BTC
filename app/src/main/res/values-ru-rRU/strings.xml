@@ -10,7 +10,7 @@
     <string name="fee_format">%1d sat/byte</string>
 
     <string name="no_internet_connection">Нет соединения с интернетом</string>
-    <string name="hash">Hash</string>
+    <string name="hash">Хэш</string>
     <string name="paste">Вставить</string>
     <string name="unavailable">Не подтверждена</string>
     <string name="available">Подтверждена</string>
@@ -33,4 +33,11 @@
     <string name="general_out">Общий выход:</string>
     <string name="hash_error">Введите правильный хэш</string>
     <string name="text_spark">%.2f $  %s</string>
+    <string name="balance_addr">Баланс:</string>
+    <string name="total_received">Всего принял:</string>
+    <string name="total_sent">Всего отправил:</string>
+    <string name="total_transactions">Транзакции:</string>
+    <string name="addr_transactions">Транзакции</string>
+    <string name="address_error">Введите правильный адрес</string>
+    <string name="address">Адрес</string>
 </resources>

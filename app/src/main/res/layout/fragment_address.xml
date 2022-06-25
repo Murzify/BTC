@@ -7,22 +7,22 @@
     tools:context=".fragments.AddressFragment">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/hashInputLayout"
+        android:id="@+id/addressInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="5dp"
-        android:hint="@string/hash"
+        android:hint="@string/address"
         app:counterEnabled="true"
-        app:counterMaxLength="64"
+        app:counterMaxLength="42"
         app:endIconMode="clear_text"
         app:layout_constraintEnd_toStartOf="@+id/paste_btn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/hashInput"
+            android:id="@+id/addressInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:imeOptions="actionDone"
@@ -42,7 +42,7 @@
         android:contentDescription="@android:string/paste"
         app:icon="@drawable/ic_paste_24"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/hashInputLayout" />
+        app:layout_constraintTop_toTopOf="@+id/addressInputLayout" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scroll"
@@ -51,7 +51,7 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/hashInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/addressInputLayout"
         tools:ignore="SpeakableTextPresentCheck"
         tools:visibility="visible">
 
@@ -72,14 +72,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/status_transaction" />
+                        android:text="@string/balance_addr" />
 
                     <TextView
-                        android:id="@+id/status_transaction"
+                        android:id="@+id/balance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        tools:text="Подтверждена" />
+                        tools:text="0,005 BTC" />
                 </TableRow>
 
                 <TableRow
@@ -90,14 +90,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/time" />
+                        android:text="@string/total_received" />
 
                     <TextView
-                        android:id="@+id/time"
+                        android:id="@+id/total_received"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        tools:text="20:23 25.05.2022" />
+                        tools:text="3,8756482 BTC" />
 
                 </TableRow>
 
@@ -109,14 +109,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/size" />
+                        android:text="@string/total_sent" />
 
                     <TextView
-                        android:id="@+id/size"
+                        android:id="@+id/total_sent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        tools:text="258 байт" />
+                        tools:text="95,7816482 BTC" />
                 </TableRow>
 
                 <TableRow
@@ -127,69 +127,16 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/num_block" />
+                        android:text="@string/total_transactions" />
 
                     <TextView
-                        android:id="@+id/num_block"
+                        android:id="@+id/total_transactions"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         tools:text="737862" />
                 </TableRow>
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/general_input" />
-
-                    <TextView
-                        android:id="@+id/general_input"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        tools:text="0.0001 BTC" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/general_out" />
-
-                    <TextView
-                        android:id="@+id/general_out"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        tools:text="0.0001 BTC" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/fee" />
-
-                    <TextView
-                        android:id="@+id/fee"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        tools:text="0.0001 BTC" />
-                </TableRow>
             </TableLayout>
 
             <View
@@ -202,16 +149,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_black"
-                android:text="@string/inputs"
+                android:text="@string/addr_transactions"
                 android:textAlignment="center"
                 android:textSize="20sp" />
 
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_inputs"
+                android:id="@+id/rv_transactions"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:nestedScrollingEnabled="false" />
+                android:nestedScrollingEnabled="false"
+                tools:listitem="@layout/transaction_item" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

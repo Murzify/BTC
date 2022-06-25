@@ -3,7 +3,6 @@ package ru.mmurzin.btc.api.blockchainInfo
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
-import retrofit2.http.Query
 import retrofit2.http.QueryMap
 import ru.mmurzin.btc.api.blockchainInfo.responce.Address
 import ru.mmurzin.btc.api.blockchainInfo.responce.Chart

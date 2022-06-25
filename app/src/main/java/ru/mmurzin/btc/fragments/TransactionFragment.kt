@@ -25,7 +25,6 @@ private const val ARG_HASH = "hash"
 
 class TransactionFragment : Fragment(), CoroutineScope {
     private val myViewModel: MyViewModel by activityViewModels()
-
     private val inputsAdapter = InputsAdapter()
     private val outsAdapter = OutsAdapter()
 
@@ -59,6 +58,12 @@ class TransactionFragment : Fragment(), CoroutineScope {
         activity?.let { activity ->
             val clipboard = activity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             binding.apply {
+                //если фрагмент был вызван с параметром
+                hash.let { hash ->
+                    hashInput.setText(hash)
+                    setDataTransaction()
+                }
+
                 pasteBtn.setOnClickListener {
                     clipboard.primaryClip?.let {
                         val item = it.getItemAt(0)
@@ -109,11 +114,11 @@ class TransactionFragment : Fragment(), CoroutineScope {
                 // общие входы и выходы
                 generalInput.text = getString(
                     R.string.price_transaction,
-                    transaction.gen_input)
+                    transaction.f_input)
 
                 generalOut.text = getString(
                     R.string.price_transaction,
-                    transaction.gen_out)
+                    transaction.f_out)
 
                 // комиссия
                 binding.fee.text = getString(
