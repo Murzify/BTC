@@ -60,9 +60,7 @@ class InfoFragment : Fragment(), CoroutineScope {
                 }
             }
             launch(Dispatchers.Main) {
-                blocks.text = "..."
-                addresses.text = "..."
-                transactions.text = "..."
+                scrollView2.visibility = View.GONE
                 progressBar.visibility = View.VISIBLE
                 withContext(Dispatchers.IO) {
                     myViewModel.getDataInfo()
@@ -71,6 +69,7 @@ class InfoFragment : Fragment(), CoroutineScope {
                     myViewModel.getChart()
                 }
                 progressBar.visibility = View.GONE
+                scrollView2.visibility = View.VISIBLE
 
                 myViewModel.loadLoopData()
             }

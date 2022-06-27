@@ -41,5 +41,11 @@
     <string name="addr_transactions">Транзакции</string>
     <string name="address_error">Введите правильный адрес</string>
     <string name="address">Адрес</string>
+    
+    <!-- descriptions -->
+    <string name="description_btc" translatable="false">logo btc</string>
+    <string name="description_blocks" translatable="false">blocks icon</string>
+    <string name="description_transactions" translatable="false">transactions icon</string>
+    <string name="description_addresses" translatable="false">addresses icon</string>
 
 </resources>

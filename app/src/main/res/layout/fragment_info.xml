@@ -8,10 +8,13 @@
 
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="391dp">
+        tools:layout_editor_absoluteY="391dp"
+        tools:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,10 +28,10 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
                 android:adjustViewBounds="true"
+                android:contentDescription="@string/description_btc"
                 android:foregroundGravity="center"
                 app:srcCompat="@drawable/ic_bitcoin"
-                tools:ignore="ImageContrastCheck"
-                tools:layout_editor_absoluteY="28dp" />
+                tools:ignore="ImageContrastCheck" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/price_btc_usd"
@@ -122,6 +125,7 @@
                     android:layout_height="36dp"
                     android:layout_marginTop="3dp"
                     android:layout_weight="1"
+                    android:contentDescription="@string/description_blocks"
                     app:srcCompat="@drawable/ic_blocks" />
 
                 <ImageView
@@ -130,6 +134,7 @@
                     android:layout_height="36dp"
                     android:layout_marginTop="3dp"
                     android:layout_weight="1"
+                    android:contentDescription="@string/description_transactions"
                     app:srcCompat="@drawable/ic_transaction_arrow" />
 
                 <ImageView
@@ -138,6 +143,7 @@
                     android:layout_height="36dp"
                     android:layout_marginTop="3dp"
                     android:layout_weight="1"
+                    android:contentDescription="@string/description_addresses"
                     app:srcCompat="@drawable/ic_wallet" />
 
             </LinearLayout>
@@ -154,18 +160,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_margin="20dp" />
+
         </LinearLayout>
     </ScrollView>
 
-    <ProgressBar
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminateTint="#FFC107"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/loading"
+        tools:ignore="ImageContrastCheck"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

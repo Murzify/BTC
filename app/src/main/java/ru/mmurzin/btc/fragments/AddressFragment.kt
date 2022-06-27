@@ -56,7 +56,7 @@ class AddressFragment : Fragment(), CoroutineScope {
                 pasteBtn.setOnClickListener {
                     clipboard.primaryClip?.let {
                         val item = it.getItemAt(0)
-                        addressInput.setText(item.text)
+                        walletInput.setText(item.text)
                         setDataAddress()
                     }
                 }
@@ -70,7 +70,7 @@ class AddressFragment : Fragment(), CoroutineScope {
         }
 
         // отслеживание нажатия галочки на клавиатуре
-        binding.addressInput.setOnEditorActionListener { _, i, _ ->
+        binding.walletInput.setOnEditorActionListener { _, i, _ ->
 
             if (i == EditorInfo.IME_ACTION_DONE){
                 setDataAddress()
@@ -119,14 +119,14 @@ class AddressFragment : Fragment(), CoroutineScope {
     private fun setDataAddress(){
         binding.apply {
             launch(Dispatchers.Main) {
-                addressInputLayout.error = null
+                walletInputLayout.error = null
                 progressBar.visibility = View.VISIBLE
                 val result = withContext(Dispatchers.IO){
-                    myViewModel.getDataAddress(addressInput.text.toString())
+                    myViewModel.getDataAddress(walletInput.text.toString())
                 }
                 progressBar.visibility = View.GONE
                 if (!result.isSuccessful){
-                    addressInputLayout.error = getString(R.string.address_error)
+                    walletInputLayout.error = getString(R.string.address_error)
                 }
             }
         }
