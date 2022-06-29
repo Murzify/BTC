@@ -8,5 +8,42 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="orange_100">#FFFFF8E1</color>
+    <color name="orange_200">#FFCC80</color>
+    <color name="orange_300">#FFB300</color>
+    <color name="orange_400">#FF6D00</color>
+    <color name="orange_500">#FFF57C00</color>
+    <color name="orange_700">#FFE65100</color>
+    <color name="orange_900">#FFD84315</color>
+    <color name="orange_1000">#FFE64A19</color>
+    <color name="orange_dark">#402300</color>
+
+    <color name="brown_100">#FFEFEBE9</color>
+    <color name="brown_200">#FFD7CCC8</color>
+    <color name="brown_300">#FFBCAAA4</color>
+    <color name="brown_400">#FFA1887F</color>
+    <color name="brown_500">#FF8D6E63</color>
+    <color name="brown_600">#FF795548</color>
+    <color name="brown_700">#FF6D4C41</color>
+    <color name="brown_800">#FF5D4037</color>
+    <color name="brown_900">#402300</color>
+
+
+    <color name="rad_200">#FFFFCDD2</color>
+    <color name="rad_500">#FFE57F04</color>
+    <color name="rad_700">#FFD32F02</color>
+    <color name="rad_900">#FFB71C1C</color>
+
+
+    <color name="gray_200">#FFFAFAFA</color>
+    <color name="gray_500">#FF9E9E9E</color>
+    <color name="gray_700">#FF616161</color>
+    <color name="gray_800">#FF424242</color>
+    <color name="gray_900">#FF212121</color>
+
+    <color name="github">#333333</color>
+
+
+
     
 </resources>
