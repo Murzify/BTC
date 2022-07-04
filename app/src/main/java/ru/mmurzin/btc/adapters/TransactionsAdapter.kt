@@ -17,7 +17,6 @@ import java.time.format.DateTimeFormatter
 class TransactionsAdapter(private val onItemClicked: (hash: String) -> Unit): RecyclerView.Adapter<TransactionsAdapter.TransactionsHolder>() {
     private val transactions = ArrayList<Tx>()
 
-
     class TransactionsHolder(
         item: View,
         context: Context,
@@ -78,5 +77,6 @@ class TransactionsAdapter(private val onItemClicked: (hash: String) -> Unit): Re
     }
     fun clear(){
         transactions.clear()
+        notifyDataSetChanged()
     }
 }

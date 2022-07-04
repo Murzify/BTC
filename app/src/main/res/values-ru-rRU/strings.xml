@@ -40,4 +40,5 @@
     <string name="addr_transactions">Транзакции</string>
     <string name="address_error">Введите правильный адрес</string>
     <string name="address">Адрес</string>
+    <string name="too_many_requests">Слишком много запросов</string>
 </resources>

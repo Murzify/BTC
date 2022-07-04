@@ -3,6 +3,7 @@ package ru.mmurzin.btc.fragments
 import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +28,10 @@ class AddressFragment : Fragment(), CoroutineScope {
     private val transactionsAdapter = TransactionsAdapter{ hash ->
         onTransactionClick(hash)
     }
+
+    private var n_tx = 0
+    private var offset = 0
+    private var prevAddress = ""
 
     private lateinit var job: Job
     override val coroutineContext: CoroutineContext
@@ -64,7 +69,29 @@ class AddressFragment : Fragment(), CoroutineScope {
                 rvTransactions.layoutManager = LinearLayoutManager(activity)
                 rvTransactions.adapter = transactionsAdapter
 
-
+                scroll.setOnScrollChangeListener{ v, _, scrollY, _, _ ->
+                    if (scrollY == (scroll.getChildAt(0).measuredHeight - v.measuredHeight)) {
+                        if (offset < n_tx) {
+                            offset += 100
+                            prevAddress = walletInput.text.toString()
+                            launch(Dispatchers.Main) {
+                                progressBarTr.visibility = View.VISIBLE
+                                val result = withContext(Dispatchers.IO){
+                                    myViewModel.getDataAddress(prevAddress, offset)
+                                }
+                                if (result.isSuccessful){
+                                    result.body()?.let {
+                                        for (transaction in it.txs){
+                                            transactionsAdapter.addTransaction(transaction)
+                                        }
+                                    }
+                                }
+                                progressBarTr.visibility = View.GONE
+                            }
+                        }
+                        Log.d("scroll", "offset: $offset, n_tx: $n_tx")
+                    }
+                }
             }
 
         }
@@ -103,6 +130,7 @@ class AddressFragment : Fragment(), CoroutineScope {
 
                 //всего транзакций
                 totalTransactions.text = it.n_tx.toString()
+                n_tx = it.n_tx
 
                 //очистка транзакций перед выводом новых
                 transactionsAdapter.clear()
@@ -122,11 +150,16 @@ class AddressFragment : Fragment(), CoroutineScope {
                 walletInputLayout.error = null
                 progressBar.visibility = View.VISIBLE
                 val result = withContext(Dispatchers.IO){
-                    myViewModel.getDataAddress(walletInput.text.toString())
+                    myViewModel.getDataAddress(walletInput.text.toString(), offset)
                 }
                 progressBar.visibility = View.GONE
                 if (!result.isSuccessful){
-                    walletInputLayout.error = getString(R.string.address_error)
+                    if (result.code() == 429){
+                        walletInputLayout.error = getString(R.string.too_many_requests)
+                    } else {
+                        walletInputLayout.error = getString(R.string.address_error)
+                    }
+
                 }
             }
         }

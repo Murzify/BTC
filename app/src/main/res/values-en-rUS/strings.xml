@@ -41,4 +41,5 @@ addresses"</string>
     <string name="addr_transactions">Transactions</string>
     <string name="address_error">Enter the correct address</string>
     <string name="address">Address</string>
+    <string name="too_many_requests">Too many requests</string>
 </resources>

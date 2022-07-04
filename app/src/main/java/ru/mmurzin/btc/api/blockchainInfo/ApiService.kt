@@ -10,7 +10,7 @@ import ru.mmurzin.btc.api.blockchainInfo.responce.Transaction
 
 interface ApiService {
     @GET("/rawaddr/{address}")
-    fun getAddressInfo(@Path("address") address: String): Call<Address>
+    fun getAddressInfo(@Path("address") address: String, @QueryMap options: Map<String, String>): Call<Address>
 
     @GET("/rawtx/{hash}")
     fun getTransactionInfo(@Path("hash") hash: String): Call<Transaction>

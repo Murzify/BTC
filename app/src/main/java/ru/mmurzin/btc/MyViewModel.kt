@@ -11,6 +11,7 @@ import ru.mmurzin.btc.api.Apifactory
 import ru.mmurzin.btc.api.blockchainInfo.responce.Address
 import ru.mmurzin.btc.api.blockchainInfo.responce.Chart
 import ru.mmurzin.btc.api.blockchainInfo.responce.Transaction
+import ru.mmurzin.btc.api.blockchainInfo.responce.Tx
 import ru.mmurzin.btc.api.blockchair.responce.Repo
 import java.sql.Timestamp
 import java.time.ZoneId
@@ -30,6 +31,7 @@ class MyViewModel(application: Application) : AndroidViewModel(application), Cor
     val info = MutableLiveData<Repo>()
     val chartData = MutableLiveData<Chart>()
     val address = MutableLiveData<Address>()
+    val txs = MutableLiveData<List<Tx>>()
 
     fun updateInfo(data: Repo){
         info.postValue(data)
@@ -39,15 +41,20 @@ class MyViewModel(application: Application) : AndroidViewModel(application), Cor
         transaction.postValue(data)
     }
 
-    suspend fun getDataAddress(addr: String): Response<Address> {
-        val result = Apifactory.blockchainInfo.getAddressInfo(addr).awaitResponse()
+    suspend fun getDataAddress(addr: String, offset: Int): Response<Address> {
+        val result = Apifactory.blockchainInfo.getAddressInfo(addr, mapOf(
+            "offset" to offset.toString()
+        )).awaitResponse()
         if (result.isSuccessful) {
-            val data = result.body()!!
-            data.f_final_balance = data.final_balance.toDouble() / 100000000
-            data.f_total_received = data.total_received.toDouble() / 100000000
-            data.f_total_sent = data.total_sent.toDouble() / 100000000
-            result.body()?.let {
-                address.postValue(it)
+            // выведутся перывые 100 транзакций
+            // если offset > 0 то нужно вывести последующие транзакции,
+            // сохранять во ViewModel их не нужно
+            if (offset == 0){
+                val data = result.body()!!
+                data.f_final_balance = data.final_balance.toDouble() / 100000000
+                data.f_total_received = data.total_received.toDouble() / 100000000
+                data.f_total_sent = data.total_sent.toDouble() / 100000000
+                address.postValue(data)
             }
         }
         return result
@@ -99,7 +106,7 @@ class MyViewModel(application: Application) : AndroidViewModel(application), Cor
                 data.isUp = isUp
                 data.percent = percent
             }
-            chartData.postValue(result.body())
+            chartData.postValue(data)
         }
 
     }

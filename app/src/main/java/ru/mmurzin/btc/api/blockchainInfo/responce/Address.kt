@@ -8,7 +8,7 @@ data class Address(
     val n_unredeemed: Int,
     val total_received: Long,
     val total_sent: Long,
-    val txs: List<Tx>,
+    var txs: List<Tx>,
 
     //форматируется в ViewModel
     var f_final_balance: Double = 0.0,
