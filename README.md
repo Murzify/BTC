@@ -18,9 +18,7 @@ More will be added in the future
 You can view information about the transaction, such as its status, time, size, block number, inputs and outputs, as well as the fee
 
 ### Address Information
-In development, please come back later...
-
-
+Here you can see the balance of the address, its transactions and more.
 
 ### APIs Used
 - [blockchain.com](https://www.blockchain.com/ru/api)
