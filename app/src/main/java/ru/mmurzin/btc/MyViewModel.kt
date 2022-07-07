@@ -11,9 +11,11 @@ import ru.mmurzin.btc.api.Apifactory
 import ru.mmurzin.btc.api.blockchainInfo.responce.Address
 import ru.mmurzin.btc.api.blockchainInfo.responce.Chart
 import ru.mmurzin.btc.api.blockchainInfo.responce.Transaction
-import ru.mmurzin.btc.api.blockchainInfo.responce.Tx
-import ru.mmurzin.btc.api.blockchair.responce.Repo
+import ru.mmurzin.btc.api.blockchair.responce.Block
+import ru.mmurzin.btc.api.blockchair.responce.DataBlock
+import ru.mmurzin.btc.api.blockchair.responce.Info
 import java.sql.Timestamp
+import java.text.SimpleDateFormat
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import kotlin.coroutines.CoroutineContext
@@ -28,17 +30,37 @@ class MyViewModel(application: Application) : AndroidViewModel(application), Cor
         get() = job + Dispatchers.IO
 
     val transaction = MutableLiveData<Transaction>()
-    val info = MutableLiveData<Repo>()
+    val info = MutableLiveData<Info>()
     val chartData = MutableLiveData<Chart>()
     val address = MutableLiveData<Address>()
-    val txs = MutableLiveData<List<Tx>>()
-
-    fun updateInfo(data: Repo){
-        info.postValue(data)
-    }
+    val block = MutableLiveData<DataBlock>()
 
     private fun updateTransaction(data: Transaction){
         transaction.postValue(data)
+    }
+
+    suspend fun getDataBlock(hash: String): Response<Block>{
+        val result = Apifactory.blockchair.getBlockInfo(hash).awaitResponse()
+        if (result.isSuccessful){
+            val data = result.body()!!.data[hash]!!
+            data.block.also {
+                it.f_input_total = data.block.input_total / 100000000.0
+
+                val parseTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(data.block.time)
+                it.f_time = Timestamp(parseTime!!.time)
+                    .toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .format(
+                        DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")
+                    )
+                it.f_fee_total = data.block.fee_total / 100000000.0
+                it.f_generation = data.block.generation / 100000000.0
+
+            }
+
+            block.postValue(data)
+        }
+        return result
     }
 
     suspend fun getDataAddress(addr: String, offset: Int): Response<Address> {
@@ -51,9 +73,9 @@ class MyViewModel(application: Application) : AndroidViewModel(application), Cor
             // сохранять во ViewModel их не нужно
             if (offset == 0){
                 val data = result.body()!!
-                data.f_final_balance = data.final_balance.toDouble() / 100000000
-                data.f_total_received = data.total_received.toDouble() / 100000000
-                data.f_total_sent = data.total_sent.toDouble() / 100000000
+                data.f_final_balance = data.final_balance / 100000000.0
+                data.f_total_received = data.total_received / 100000000.0
+                data.f_total_sent = data.total_sent / 100000000.0
                 address.postValue(data)
             }
         }
@@ -64,11 +86,12 @@ class MyViewModel(application: Application) : AndroidViewModel(application), Cor
         val result = Apifactory.blockchair.getBlockchainStats("bitcoin").awaitResponse()
         if (result.isSuccessful){
             result.body()?.also {
-                updateInfo(it)
+                info.postValue(it)
             }
         }
     }
 
+    // постоянное обновление информации
     suspend fun loadLoopData(){
         while (true){
             val result = withContext(Dispatchers.IO) {
@@ -76,7 +99,7 @@ class MyViewModel(application: Application) : AndroidViewModel(application), Cor
             }
             if (result.isSuccessful) {
                 result.body()?.also {
-                    updateInfo(it)
+                    info.postValue(it)
                 }
             }
 
@@ -125,13 +148,7 @@ class MyViewModel(application: Application) : AndroidViewModel(application), Cor
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                data.f_time =
-                    Timestamp(data.time * 1000)
-                        .toInstant()
-                        .atZone(ZoneId.systemDefault())
-                        .format(
-                            DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")
-                        )
+                data.f_time = timeFormat(data.time)
             }
 
             // общие входы и выходы
@@ -151,5 +168,14 @@ class MyViewModel(application: Application) : AndroidViewModel(application), Cor
 
 
         return result
+    }
+
+    private fun timeFormat(time: Long): String{
+        return Timestamp(time * 1000)
+            .toInstant()
+            .atZone(ZoneId.systemDefault())
+            .format(
+                DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")
+            )
     }
 }

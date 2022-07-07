@@ -19,9 +19,8 @@
         android:title=""
         />
     <item
-        android:id="@+id/me_page"
+        android:id="@+id/block_page"
         android:enabled="true"
-        android:icon="@drawable/ic_user"
-        android:title=""
-        />
+        android:icon="@drawable/ic_cube"
+        android:title="" />
 </menu>

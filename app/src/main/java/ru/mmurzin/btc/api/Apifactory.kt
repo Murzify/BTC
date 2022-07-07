@@ -1,9 +1,5 @@
 package ru.mmurzin.btc.api
 
-import android.util.Log
-import com.google.gson.GsonBuilder
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.mmurzin.btc.api.blockchainInfo.ApiService as ApiBlockchainInfo

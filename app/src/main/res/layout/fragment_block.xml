@@ -7,13 +7,13 @@
     tools:context=".fragments.AddressFragment">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/walletInputLayout"
+        android:id="@+id/hashInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="5dp"
-        android:hint="@string/address"
+        android:hint="@string/hash"
         app:counterEnabled="true"
         app:endIconMode="clear_text"
         app:layout_constraintEnd_toStartOf="@+id/paste_btn"
@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/walletInput"
+            android:id="@+id/hashInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:imeOptions="actionDone"
@@ -41,7 +41,7 @@
         android:contentDescription="@android:string/paste"
         app:icon="@drawable/ic_paste_24"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/walletInputLayout" />
+        app:layout_constraintTop_toTopOf="@+id/hashInputLayout" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scroll"
@@ -50,7 +50,7 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/walletInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/hashInputLayout"
         tools:ignore="SpeakableTextPresentCheck"
         tools:visibility="visible">
 
@@ -71,14 +71,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/balance_addr" />
+                        android:text="@string/transaction_volume" />
 
                     <TextView
-                        android:id="@+id/balance"
+                        android:id="@+id/transaction_volume"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        tools:text="0,005 BTC" />
+                        tools:text="64151,26757448 BTC" />
                 </TableRow>
 
                 <TableRow
@@ -89,14 +89,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/total_received" />
+                        android:text="@string/time" />
 
                     <TextView
-                        android:id="@+id/total_received"
+                        android:id="@+id/time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        tools:text="3,8756482 BTC" />
+                        tools:text="2022-07-05 15:36" />
 
                 </TableRow>
 
@@ -108,14 +108,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/total_sent" />
+                        android:text="@string/height" />
 
                     <TextView
-                        android:id="@+id/total_sent"
+                        android:id="@+id/height"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        tools:text="95,7816482 BTC" />
+                        tools:text="743670" />
                 </TableRow>
 
                 <TableRow
@@ -133,7 +133,95 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        tools:text="737862" />
+                        tools:text="1 684" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/weight" />
+
+                    <TextView
+                        android:id="@+id/weight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        tools:text="3 797 050 WU" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/size" />
+
+                    <TextView
+                        android:id="@+id/size"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        tools:text="1 544 134 bytes" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/fee" />
+
+                    <TextView
+                        android:id="@+id/fee"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        tools:text="0,10176218 BTC" />
+                </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/reward" />
+
+                    <TextView
+                        android:id="@+id/reward"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        tools:text="6,25000000 BTC" />
+                </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/miner" />
+
+                    <TextView
+                        android:id="@+id/miner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        tools:text="Foundry USA Pool" />
                 </TableRow>
 
             </TableLayout>
@@ -144,42 +232,14 @@
                 android:layout_marginTop="5dp"
                 android:background="?attr/actionMenuTextColor" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_black"
-                android:text="@string/addr_transactions"
-                android:textAlignment="center"
-                android:textSize="20sp" />
 
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_transactions"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:nestedScrollingEnabled="false"
-                tools:listitem="@layout/transaction_item" />
-
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/progress_bar_tr"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true"
-                app:lottie_rawRes="@raw/loading"
-                tools:ignore="ImageContrastCheck"
-                tools:visibility="visible" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/progress_bar"
-        android:layout_width="80dp"
+        android:layout_width="wrap_content"
         android:layout_height="80dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"

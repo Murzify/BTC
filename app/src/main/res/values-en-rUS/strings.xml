@@ -9,7 +9,6 @@ transactions"</string>
     <string name="addresses">"%1d
 addresses"</string>
     <string name="suggested_transaction_fee_per_byte_sat">"Recommended fee:"</string>
-    <string name="fee_format">"%1d sat/byte"</string>
     <string name="no_internet_connection">"No internet connection"</string>
     <string name="hash">"Hash"</string>
     <string name="paste">"Paste"</string>
@@ -29,11 +28,9 @@ addresses"</string>
     <string name="witness_name">"Witness:"</string>
     <string name="script">"Script:"</string>
     <string name="copy_description">"Copy"</string>
-    <string name="price_transaction">"%1$,.8f BTC"</string>
     <string name="general_input">"General input:"</string>
     <string name="general_out">"General out:"</string>
     <string name="hash_error">"Enter the correct hash"</string>
-    <string name="text_spark">%.2f $  %s</string>
     <string name="balance_addr">Balance:</string>
     <string name="total_received">Total received:</string>
     <string name="total_sent">Total sent:</string>
@@ -42,4 +39,8 @@ addresses"</string>
     <string name="address_error">Enter the correct address</string>
     <string name="address">Address</string>
     <string name="too_many_requests">Too many requests</string>
+    <string name="transaction_volume">Transaction volume:</string>
+    <string name="height">Height:</string>
+    <string name="reward">Block reward:</string>
+    <string name="miner">Miner:</string>
 </resources>

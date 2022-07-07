@@ -159,7 +159,6 @@ class AddressFragment : Fragment(), CoroutineScope {
                     } else {
                         walletInputLayout.error = getString(R.string.address_error)
                     }
-
                 }
             }
         }

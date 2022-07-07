@@ -10,6 +10,7 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import ru.mmurzin.btc.databinding.ActivityMainBinding
 import ru.mmurzin.btc.fragments.AddressFragment
+import ru.mmurzin.btc.fragments.BlockFragment
 import ru.mmurzin.btc.fragments.InfoFragment
 import ru.mmurzin.btc.fragments.TransactionFragment
 
@@ -17,7 +18,6 @@ import ru.mmurzin.btc.fragments.TransactionFragment
 class MainActivity : AppCompatActivity(){
 
     private lateinit var binding: ActivityMainBinding
-    var ifFV = R.id.fragment_view
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,30 +42,30 @@ class MainActivity : AppCompatActivity(){
             when(item.itemId) {
                 //информация о биткоине, цена, кол-во блоков, кол-во транзакций...
                 R.id.info_page -> {
-                    supportFragmentManager
-                        .beginTransaction()
-                        .replace<InfoFragment>(R.id.fragment_view)
-                        .commitAllowingStateLoss()
+                    supportFragmentManager.commit {
+                        replace<InfoFragment>(R.id.fragment_view)
+                    }
                     true
                 }
                 //получить информацию о транзакции по хэшу
                 R.id.transaction_page -> {
                     supportFragmentManager.commit {
                         replace<TransactionFragment>(R.id.fragment_view)
-                        setReorderingAllowed(true)
                     }
                     true
                 }
                 //получить информцию об адресе
                 R.id.wallet_page -> {
-                    supportFragmentManager
-                        .beginTransaction()
-                        .replace<AddressFragment>(R.id.fragment_view)
-                        .commitAllowingStateLoss()
+                    supportFragmentManager.commit {
+                        replace<AddressFragment>(R.id.fragment_view)
+                    }
                     true
                 }
                 //настройки, контакты, история...
-                R.id.me_page -> {
+                R.id.block_page -> {
+                    supportFragmentManager.commit {
+                        replace<BlockFragment>(R.id.fragment_view)
+                    }
                     true
                 }
 

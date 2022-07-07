@@ -1,5 +1,24 @@
 package ru.mmurzin.btc.api.blockchair.responce
 
+data class Info(
+    val context: Context,
+    val `data`: Data
+)
+
+data class Context(
+    val api: Api,
+    val cache: Cache,
+    val code: Int,
+    val full_time: Double,
+    val market_price_usd: Double,
+    val render_time: Double,
+    val request_cost: Int,
+    val servers: String,
+    val source: String,
+    val state: Int,
+    val time: Double
+)
+
 data class Data(
     val average_transaction_fee_24h: Int,
     val average_transaction_fee_usd_24h: Double,
@@ -38,4 +57,25 @@ data class Data(
     val transactions: Int,
     val transactions_24h: Int,
     val volume_24h: Long
+)
+
+data class Api(
+    val documentation: String,
+    val last_major_update: String,
+    val next_major_update: Any,
+    val notice: String,
+    val version: String
+)
+
+data class Cache(
+    val duration: String,
+    val live: Boolean,
+    val since: String,
+    val time: Double,
+    val until: String
+)
+
+data class LargestTransaction24h(
+    val hash: String,
+    val value_usd: Int
 )

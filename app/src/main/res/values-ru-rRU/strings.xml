@@ -7,7 +7,6 @@
     <string name="addresses">%1d\n
         адресов</string>
     <string name="suggested_transaction_fee_per_byte_sat">Рекомендуемая комиссия: </string>
-    <string name="fee_format">%1d sat/byte</string>
 
     <string name="no_internet_connection">Нет соединения с интернетом</string>
     <string name="hash">Хэш</string>
@@ -28,11 +27,9 @@
     <string name="witness_name">Witness:</string>
     <string name="script">"Script: "</string>
     <string name="copy_description">Копировать</string>
-    <string name="price_transaction">%1$,.8f BTC</string>
     <string name="general_input">Общий вход:</string>
     <string name="general_out">Общий выход:</string>
     <string name="hash_error">Введите правильный хэш</string>
-    <string name="text_spark">%.2f $  %s</string>
     <string name="balance_addr">Баланс:</string>
     <string name="total_received">Всего принял:</string>
     <string name="total_sent">Всего отправил:</string>
@@ -41,4 +38,8 @@
     <string name="address_error">Введите правильный адрес</string>
     <string name="address">Адрес</string>
     <string name="too_many_requests">Слишком много запросов</string>
+    <string name="transaction_volume">Объем транзакций:</string>
+    <string name="height">Высота:</string>
+    <string name="reward">Вознаграждение за блок:</string>
+    <string name="miner">Майнер:</string>
 </resources>
