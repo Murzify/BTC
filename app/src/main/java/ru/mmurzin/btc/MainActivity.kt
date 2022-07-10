@@ -40,28 +40,28 @@ class MainActivity : AppCompatActivity(){
 
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when(item.itemId) {
-                //информация о биткоине, цена, кол-во блоков, кол-во транзакций...
+                // информация о биткоине, цена, кол-во блоков, кол-во транзакций...
                 R.id.info_page -> {
                     supportFragmentManager.commit {
                         replace<InfoFragment>(R.id.fragment_view)
                     }
                     true
                 }
-                //получить информацию о транзакции по хэшу
+                // получить информацию о транзакции по хэшу
                 R.id.transaction_page -> {
                     supportFragmentManager.commit {
                         replace<TransactionFragment>(R.id.fragment_view)
                     }
                     true
                 }
-                //получить информцию об адресе
+                // получить информцию об адресе
                 R.id.wallet_page -> {
                     supportFragmentManager.commit {
                         replace<AddressFragment>(R.id.fragment_view)
                     }
                     true
                 }
-                //настройки, контакты, история...
+                // получить информаию о блоке
                 R.id.block_page -> {
                     supportFragmentManager.commit {
                         replace<BlockFragment>(R.id.fragment_view)

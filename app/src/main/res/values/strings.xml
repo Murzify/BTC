@@ -56,5 +56,6 @@
     <string name="byte_format" translatable="false">%1d bytes</string>
     <string name="reward">Вознаграждение за блок:</string>
     <string name="miner">Майнер:</string>
+    <string name="hash_or_num">Хэш/номер</string>
 
 </resources>

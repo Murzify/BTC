@@ -42,23 +42,23 @@ class MyViewModel(application: Application) : AndroidViewModel(application), Cor
     suspend fun getDataBlock(hash: String): Response<Block>{
         val result = Apifactory.blockchair.getBlockInfo(hash).awaitResponse()
         if (result.isSuccessful){
-            val data = result.body()!!.data[hash]!!
-            data.block.also {
-                it.f_input_total = data.block.input_total / 100000000.0
-
-                val parseTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(data.block.time)
-                it.f_time = Timestamp(parseTime!!.time)
-                    .toInstant()
-                    .atZone(ZoneId.systemDefault())
-                    .format(
-                        DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")
-                    )
-                it.f_fee_total = data.block.fee_total / 100000000.0
-                it.f_generation = data.block.generation / 100000000.0
-
+            if (result.body()!!.data.isNotEmpty()){
+                val data = result.body()!!.data[hash]!!
+                data.block.also {
+                    it.f_input_total = data.block.input_total / 100000000.0
+                    val parseTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(data.block.time)
+                    it.f_time = Timestamp(parseTime!!.time)
+                        .toInstant()
+                        .atZone(ZoneId.systemDefault())
+                        .format(
+                            DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")
+                        )
+                    it.f_fee_total = data.block.fee_total / 100000000.0
+                    it.f_generation = data.block.generation / 100000000.0
+                }
+                block.postValue(data)
             }
 
-            block.postValue(data)
         }
         return result
     }

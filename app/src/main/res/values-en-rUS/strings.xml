@@ -43,4 +43,5 @@ addresses"</string>
     <string name="height">Height:</string>
     <string name="reward">Block reward:</string>
     <string name="miner">Miner:</string>
+    <string name="hash_or_num">Hash/number</string>
 </resources>
