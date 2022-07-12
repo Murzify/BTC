@@ -44,4 +44,5 @@
     <string name="miner">Майнер:</string>
     <string name="hash_or_num">Хэш/номер</string>
     <string name="latest_transactions">Последние транзакции</string>
+    <string name="block_hash">Хэш:</string>
 </resources>

@@ -74,6 +74,7 @@ class BlockFragment : Fragment(), CoroutineScope{
         super.onStart()
         binding.apply {
             myViewModel.block.observe(viewLifecycleOwner) {
+                blockHash.text = it.block.hash
                 transactionVolume.text = getString(
                     R.string.price_transaction,
                     it.block.f_input_total
