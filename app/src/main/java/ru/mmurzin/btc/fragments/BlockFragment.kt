@@ -3,15 +3,18 @@ package ru.mmurzin.btc.fragments
 import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.*
 import ru.mmurzin.btc.MyViewModel
 import ru.mmurzin.btc.R
+import ru.mmurzin.btc.adapters.BlockTransactionsAdapter
 import ru.mmurzin.btc.databinding.FragmentBlockBinding
 import kotlin.coroutines.CoroutineContext
 
@@ -19,6 +22,9 @@ class BlockFragment : Fragment(), CoroutineScope{
 
     private lateinit var binding: FragmentBlockBinding
     private val myViewModel: MyViewModel by activityViewModels()
+    private val transactionsAdapter = BlockTransactionsAdapter{ hash ->
+        onTransactionClick(hash)
+    }
 
     private lateinit var job: Job
     override val coroutineContext: CoroutineContext
@@ -48,6 +54,8 @@ class BlockFragment : Fragment(), CoroutineScope{
                         setDataBlock()
                     }
                 }
+                rvTransactions.layoutManager = LinearLayoutManager(activity)
+                rvTransactions.adapter = transactionsAdapter
             }
 
         }
@@ -91,6 +99,10 @@ class BlockFragment : Fragment(), CoroutineScope{
                 )
                 miner.text = it.block.guessed_miner
 
+                transactionsAdapter.clear()
+                for (transaction in it.transactions){
+                    transactionsAdapter.addTransaction(transaction)
+                }
                 scroll.visibility = View.VISIBLE
             }
         }
@@ -111,10 +123,18 @@ class BlockFragment : Fragment(), CoroutineScope{
                         hashInputLayout.error = getString(R.string.too_many_requests)
                     } else {
                         hashInputLayout.error = getString(R.string.hash_error)
+                        Log.d("networkbtc", result.code().toString()+" "+result.message())
                     }
                 }
             }
         }
+    }
+
+    private fun onTransactionClick(hash: String){
+        parentFragmentManager
+            .beginTransaction()
+            .replace((view!!.parent as ViewGroup).id, TransactionFragment.newInstance(hash))
+            .commit()
     }
 
 

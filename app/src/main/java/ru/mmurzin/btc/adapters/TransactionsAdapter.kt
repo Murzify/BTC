@@ -3,6 +3,7 @@ package ru.mmurzin.btc.adapters
 import android.content.Context
 import android.graphics.Color
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -72,6 +73,7 @@ class TransactionsAdapter(private val onItemClicked: (hash: String) -> Unit): Re
     }
 
     fun addTransaction(transaction: Tx){
+        Log.d("add", "add")
         transactions.add(transaction)
         notifyItemChanged(itemCount + 1)
     }

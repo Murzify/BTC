@@ -47,7 +47,7 @@ data class Out(
 
 data class PrevOut(
     val addr: String,
-    val n: Int,
+    val n: Long,
     val script: String,
     val spending_outpoints: List<SpendingOutpoint>,
     val spent: Boolean,
@@ -57,11 +57,11 @@ data class PrevOut(
 )
 
 data class SpendingOutpoint(
-    val n: Int,
+    val n: Long,
     val tx_index: Long
 )
 
 data class SpendingOutpointX(
-    val n: Int,
+    val n: Long,
     val tx_index: Long
 )
