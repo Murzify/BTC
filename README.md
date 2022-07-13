@@ -20,6 +20,9 @@ You can view information about the transaction, such as its status, time, size, 
 ### Address Information
 Here you can see the balance of the address, its transactions and more.
 
+### Block Information
+You can view information about the block, such as its number, time, size, transactions and more.
+
 ### APIs Used
 - [blockchain.com](https://www.blockchain.com/ru/api)
 - [blockchair.com](https://blockchair.com/api)
