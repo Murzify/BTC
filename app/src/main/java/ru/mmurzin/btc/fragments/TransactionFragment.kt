@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.*
 import ru.mmurzin.btc.MyViewModel
 import ru.mmurzin.btc.R
+import ru.mmurzin.btc.Utils.onCopyClickListener
 import ru.mmurzin.btc.adapters.InputsAdapter
 import ru.mmurzin.btc.adapters.OutsAdapter
 import ru.mmurzin.btc.databinding.FragmentTransactionBinding
@@ -49,12 +50,6 @@ class TransactionFragment : Fragment(), CoroutineScope {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentTransactionBinding.inflate(inflater)
-
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         activity?.let { activity ->
             val clipboard = activity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             binding.apply {
@@ -77,19 +72,39 @@ class TransactionFragment : Fragment(), CoroutineScope {
                 // установка адапетра выходов
                 rvOuts.layoutManager = LinearLayoutManager(activity)
                 rvOuts.adapter = outsAdapter
+
+                // отслеживание нажатия галочки на клавиатуре
+                hashInput.setOnEditorActionListener { _, i, _ ->
+                    if (i == EditorInfo.IME_ACTION_DONE){
+                        setDataTransaction()
+                    }
+                    return@setOnEditorActionListener false
+                }
+
+                // слушатель долгого нажатия для копирования текста
+                val onCopy = onCopyClickListener(activity, clipboard)
+
+                // установка слушателя на TextView
+                statusTransaction.setOnLongClickListener(onCopy)
+                time.setOnLongClickListener(onCopy)
+                size.setOnLongClickListener(onCopy)
+                numBlock.setOnLongClickListener(onCopy)
+                generalInput.setOnLongClickListener(onCopy)
+                generalOutput.setOnLongClickListener(onCopy)
+                fee.setOnLongClickListener(onCopy)
+
             }
 
-        }
 
-        // отслеживание нажатия галочки на клавиатуре
-        binding.hashInput.setOnEditorActionListener { _, i, _ ->
 
-            if (i == EditorInfo.IME_ACTION_DONE){
-                setDataTransaction()
-            }
-            return@setOnEditorActionListener false
+
+
+
         }
+        return binding.root
     }
+
+
 
     override fun onStart() {
         super.onStart()
@@ -116,7 +131,7 @@ class TransactionFragment : Fragment(), CoroutineScope {
                     R.string.price_transaction,
                     transaction.f_input)
 
-                generalOut.text = getString(
+                generalOutput.text = getString(
                     R.string.price_transaction,
                     transaction.f_out)
 

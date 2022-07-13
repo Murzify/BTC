@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.*
 import ru.mmurzin.btc.MyViewModel
 import ru.mmurzin.btc.R
+import ru.mmurzin.btc.Utils.onCopyClickListener
 import ru.mmurzin.btc.adapters.TransactionsAdapter
 import ru.mmurzin.btc.databinding.FragmentAddressBinding
 import kotlin.coroutines.CoroutineContext
@@ -49,12 +50,7 @@ class AddressFragment : Fragment(), CoroutineScope {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         binding = FragmentAddressBinding.inflate(inflater)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         activity?.let { activity ->
             val clipboard = activity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             binding.apply {
@@ -92,18 +88,28 @@ class AddressFragment : Fragment(), CoroutineScope {
                         Log.d("scroll", "offset: $offset, n_tx: $n_tx")
                     }
                 }
+
+                // отслеживание нажатия галочки на клавиатуре
+                walletInput.setOnEditorActionListener { _, i, _ ->
+
+                    if (i == EditorInfo.IME_ACTION_DONE){
+                        setDataAddress()
+                    }
+                    return@setOnEditorActionListener false
+                }
+
+                // слушатель долгого нажатия для копирования текста
+                val onCopy = onCopyClickListener(activity, clipboard)
+
+                // установка слушателя на TextView
+                balance.setOnLongClickListener(onCopy)
+                totalReceived.setOnLongClickListener(onCopy)
+                totalSent.setOnLongClickListener(onCopy)
+                totalTransactions.setOnLongClickListener(onCopy)
             }
 
         }
-
-        // отслеживание нажатия галочки на клавиатуре
-        binding.walletInput.setOnEditorActionListener { _, i, _ ->
-
-            if (i == EditorInfo.IME_ACTION_DONE){
-                setDataAddress()
-            }
-            return@setOnEditorActionListener false
-        }
+        return binding.root
     }
 
     override fun onStart() {

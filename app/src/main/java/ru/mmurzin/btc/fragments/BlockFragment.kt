@@ -3,7 +3,6 @@ package ru.mmurzin.btc.fragments
 import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.*
 import ru.mmurzin.btc.MyViewModel
 import ru.mmurzin.btc.R
+import ru.mmurzin.btc.Utils.onCopyClickListener
 import ru.mmurzin.btc.adapters.BlockTransactionsAdapter
 import ru.mmurzin.btc.databinding.FragmentBlockBinding
 import kotlin.coroutines.CoroutineContext
@@ -40,10 +40,7 @@ class BlockFragment : Fragment(), CoroutineScope{
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentBlockBinding.inflate(inflater)
-        return binding.root
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         activity?.let { activity ->
             val clipboard = activity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             binding.apply {
@@ -56,19 +53,37 @@ class BlockFragment : Fragment(), CoroutineScope{
                 }
                 rvTransactions.layoutManager = LinearLayoutManager(activity)
                 rvTransactions.adapter = transactionsAdapter
+
+                // отслеживание нажатия галочки на клавиатуре
+                hashInput.setOnEditorActionListener { _, i, _ ->
+                    if (i == EditorInfo.IME_ACTION_DONE){
+                        setDataBlock()
+                    }
+                    return@setOnEditorActionListener false
+                }
+
+                // слушатель долгого нажатия для копирования текста
+                val onCopy = onCopyClickListener(activity, clipboard)
+
+                // установка слушателя на TextView
+                blockHash.setOnLongClickListener(onCopy)
+                transactionVolume.setOnLongClickListener(onCopy)
+                time.setOnLongClickListener(onCopy)
+                height.setOnLongClickListener(onCopy)
+                totalTransactions.setOnLongClickListener(onCopy)
+                weight.setOnLongClickListener(onCopy)
+                size.setOnLongClickListener(onCopy)
+                fee.setOnLongClickListener(onCopy)
+                reward.setOnLongClickListener(onCopy)
+                miner.setOnLongClickListener(onCopy)
+
             }
 
         }
-
-        // отслеживание нажатия галочки на клавиатуре
-        binding.hashInput.setOnEditorActionListener { _, i, _ ->
-
-            if (i == EditorInfo.IME_ACTION_DONE){
-                setDataBlock()
-            }
-            return@setOnEditorActionListener false
-        }
+        return binding.root
     }
+
+
 
     override fun onStart() {
         super.onStart()
@@ -124,7 +139,6 @@ class BlockFragment : Fragment(), CoroutineScope{
                         hashInputLayout.error = getString(R.string.too_many_requests)
                     } else {
                         hashInputLayout.error = getString(R.string.hash_error)
-                        Log.d("networkbtc", result.code().toString()+" "+result.message())
                     }
                 }
             }
@@ -137,6 +151,5 @@ class BlockFragment : Fragment(), CoroutineScope{
             .replace((view!!.parent as ViewGroup).id, TransactionFragment.newInstance(hash))
             .commit()
     }
-
 
 }
