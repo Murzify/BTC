@@ -24,8 +24,7 @@ import kotlin.math.abs
 class MyViewModel(application: Application) : AndroidViewModel(application), CoroutineScope {
 
     private lateinit var job: Job
-    // Inherit CoroutineScope должен инициализировать переменную coroutineContext
-    // Это стандартный метод записи, + на самом деле метод plus, указывающий задание впереди, используемый для управления сопрограммами, за которым следуют диспетчеры, определяющие поток для запуска
+
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.IO
 
@@ -39,7 +38,12 @@ class MyViewModel(application: Application) : AndroidViewModel(application), Cor
         transaction.postValue(data)
     }
 
-    suspend fun getDataBlock(hash: String): Response<Block>{
+    suspend fun getDataBlock(blockId: String): Response<Block>{
+        // так пришлось сделать из-за кривого API Blockchair
+        var hash = blockId
+        if (blockId == "0"){
+            hash = "000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f"
+        }
         val result = Apifactory.blockchair.getBlockInfo(hash).awaitResponse()
         if (result.isSuccessful){
             if (result.body()!!.data.isNotEmpty()){
@@ -117,7 +121,7 @@ class MyViewModel(application: Application) : AndroidViewModel(application), Cor
         ).awaitResponse()
         if (result.isSuccessful){
             val data = result.body()!!
-            result.body()!!.values.also { values ->
+            data.values.also { values ->
                 // вычисление изменения курса биткоина в процентах
                 val start = values[0].y
                 val end = values[values.size - 1].y
