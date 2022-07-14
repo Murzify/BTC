@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +17,8 @@ import ru.mmurzin.btc.adapters.BlockTransactionsAdapter
 import ru.mmurzin.btc.databinding.FragmentBlockBinding
 import kotlin.coroutines.CoroutineContext
 
+private const val ARG_HASH = "hash"
+
 class BlockFragment : Fragment(), CoroutineScope{
 
     private lateinit var binding: FragmentBlockBinding
@@ -26,12 +27,16 @@ class BlockFragment : Fragment(), CoroutineScope{
         onTransactionClick(hash)
     }
 
+    private lateinit var hash: String
+
     private lateinit var job: Job
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.Main
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        hash = arguments!!.getString(ARG_HASH).toString()
+
         job = Job()
     }
 
@@ -44,23 +49,10 @@ class BlockFragment : Fragment(), CoroutineScope{
         activity?.let { activity ->
             val clipboard = activity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             binding.apply {
-                pasteBtn.setOnClickListener {
-                    clipboard.primaryClip?.let {
-                        val item = it.getItemAt(0)
-                        hashInput.setText(item.text)
-                        setDataBlock()
-                    }
-                }
+                setDataBlock()
+
                 rvTransactions.layoutManager = LinearLayoutManager(activity)
                 rvTransactions.adapter = transactionsAdapter
-
-                // отслеживание нажатия галочки на клавиатуре
-                hashInput.setOnEditorActionListener { _, i, _ ->
-                    if (i == EditorInfo.IME_ACTION_DONE){
-                        setDataBlock()
-                    }
-                    return@setOnEditorActionListener false
-                }
 
                 // слушатель долгого нажатия для копирования текста
                 val onCopy = onCopyClickListener(activity, clipboard)
@@ -128,19 +120,11 @@ class BlockFragment : Fragment(), CoroutineScope{
     private fun setDataBlock(){
         binding.apply {
             launch(Dispatchers.Main) {
-                hashInputLayout.error = null
                 progressBar.visibility = View.VISIBLE
-                val result = withContext(Dispatchers.IO){
-                    myViewModel.getDataBlock(hashInput.text.toString())
+                withContext(Dispatchers.IO){
+                    myViewModel.getDataBlock(hash)
                 }
                 progressBar.visibility = View.GONE
-                if (!result.isSuccessful){
-                    if (result.code() == 429){
-                        hashInputLayout.error = getString(R.string.too_many_requests)
-                    } else {
-                        hashInputLayout.error = getString(R.string.hash_error)
-                    }
-                }
             }
         }
     }
@@ -150,6 +134,16 @@ class BlockFragment : Fragment(), CoroutineScope{
             .beginTransaction()
             .replace((view!!.parent as ViewGroup).id, TransactionFragment.newInstance(hash))
             .commit()
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance(param1: String?) =
+            BlockFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_HASH, param1)
+                }
+            }
     }
 
 }

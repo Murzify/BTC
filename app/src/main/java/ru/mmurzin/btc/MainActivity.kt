@@ -9,10 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import ru.mmurzin.btc.databinding.ActivityMainBinding
-import ru.mmurzin.btc.fragments.AddressFragment
-import ru.mmurzin.btc.fragments.BlockFragment
 import ru.mmurzin.btc.fragments.InfoFragment
-import ru.mmurzin.btc.fragments.TransactionFragment
+import ru.mmurzin.btc.fragments.SearchFragment
 
 
 class MainActivity : AppCompatActivity(){
@@ -47,24 +45,10 @@ class MainActivity : AppCompatActivity(){
                     }
                     true
                 }
-                // получить информацию о транзакции по хэшу
-                R.id.transaction_page -> {
+                // поиск блоков, транзакций, адресов...
+                R.id.search_page -> {
                     supportFragmentManager.commit {
-                        replace<TransactionFragment>(R.id.fragment_view)
-                    }
-                    true
-                }
-                // получить информцию об адресе
-                R.id.wallet_page -> {
-                    supportFragmentManager.commit {
-                        replace<AddressFragment>(R.id.fragment_view)
-                    }
-                    true
-                }
-                // получить информаию о блоке
-                R.id.block_page -> {
-                    supportFragmentManager.commit {
-                        replace<BlockFragment>(R.id.fragment_view)
+                        replace<SearchFragment>(R.id.fragment_view)
                     }
                     true
                 }

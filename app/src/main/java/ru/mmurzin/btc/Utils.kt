@@ -31,7 +31,7 @@ object Utils {
     }
 
     // копирование текста
-    fun copy(clipboard: ClipboardManager, text: String){
+    private fun copy(clipboard: ClipboardManager, text: String){
         val clip: ClipData = ClipData.newPlainText("data", text)
         clipboard.setPrimaryClip(clip)
     }
@@ -42,5 +42,22 @@ object Utils {
         copy(clipboard, text)
         vibratePhone(activity)
         true
+    }
+
+    fun validSearch(search: String): String {
+        val addressRegex = Regex("^(bc1|[13])[a-zA-HJ-NP-Z\\d]{25,39}$")
+        val transactionRegex = Regex("^[a-fA-F\\d]{64}\$") // также подходит для хэша блока
+        val blockHashRegex = Regex("^0{8}[a-fA-F\\d]{56}\$")
+        val blockHeightRegex = Regex("^(0|[1-9]\\d*)\$")
+
+        return if (search.matches(addressRegex)){
+            "address"
+        } else if (search.matches(blockHashRegex) || search.matches(blockHeightRegex)){
+            "block"
+        } else if (search.matches(transactionRegex)){
+            "transaction"
+        } else {
+            "invalid"
+        }
     }
 }

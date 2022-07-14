@@ -6,51 +6,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.AddressFragment">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/walletInputLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="5dp"
-        android:hint="@string/address"
-        app:counterEnabled="true"
-        app:endIconMode="clear_text"
-        app:layout_constraintEnd_toStartOf="@+id/paste_btn"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/walletInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:imeOptions="actionDone"
-            android:singleLine="true"
-            android:textColorHint="#546E7A"
-            tools:ignore="TextContrastCheck" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <Button
-        android:id="@+id/paste_btn"
-        style="@style/Widget.Material3.Button.IconButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:contentDescription="@android:string/paste"
-        app:icon="@drawable/ic_paste_24"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/walletInputLayout" />
-
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/walletInputLayout"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="SpeakableTextPresentCheck"
         tools:visibility="visible">
 

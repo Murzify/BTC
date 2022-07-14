@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,7 +23,7 @@ private const val addressParam = "address"
 
 class AddressFragment : Fragment(), CoroutineScope {
     private val myViewModel: MyViewModel by activityViewModels()
-    private var address: String? = null
+    private lateinit var address: String
     private lateinit var binding: FragmentAddressBinding
     private val transactionsAdapter = TransactionsAdapter{ hash ->
         onTransactionClick(hash)
@@ -40,9 +39,9 @@ class AddressFragment : Fragment(), CoroutineScope {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            address = it.getString(addressParam)
-        }
+
+        address = arguments!!.getString(addressParam).toString()
+
         job = Job()
     }
 
@@ -54,13 +53,9 @@ class AddressFragment : Fragment(), CoroutineScope {
         activity?.let { activity ->
             val clipboard = activity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             binding.apply {
-                pasteBtn.setOnClickListener {
-                    clipboard.primaryClip?.let {
-                        val item = it.getItemAt(0)
-                        walletInput.setText(item.text)
-                        setDataAddress()
-                    }
-                }
+
+                setDataAddress()
+
                 // установка адапетра транзакций
                 rvTransactions.layoutManager = LinearLayoutManager(activity)
                 rvTransactions.adapter = transactionsAdapter
@@ -69,7 +64,7 @@ class AddressFragment : Fragment(), CoroutineScope {
                     if (scrollY == (scroll.getChildAt(0).measuredHeight - v.measuredHeight)) {
                         if (offset < n_tx) {
                             offset += 100
-                            prevAddress = walletInput.text.toString()
+                            prevAddress = address
                             launch(Dispatchers.Main) {
                                 progressBarTr.visibility = View.VISIBLE
                                 val result = withContext(Dispatchers.IO){
@@ -87,15 +82,6 @@ class AddressFragment : Fragment(), CoroutineScope {
                         }
                         Log.d("scroll", "offset: $offset, n_tx: $n_tx")
                     }
-                }
-
-                // отслеживание нажатия галочки на клавиатуре
-                walletInput.setOnEditorActionListener { _, i, _ ->
-
-                    if (i == EditorInfo.IME_ACTION_DONE){
-                        setDataAddress()
-                    }
-                    return@setOnEditorActionListener false
                 }
 
                 // слушатель долгого нажатия для копирования текста
@@ -153,19 +139,11 @@ class AddressFragment : Fragment(), CoroutineScope {
     private fun setDataAddress(){
         binding.apply {
             launch(Dispatchers.Main) {
-                walletInputLayout.error = null
                 progressBar.visibility = View.VISIBLE
-                val result = withContext(Dispatchers.IO){
-                    myViewModel.getDataAddress(walletInput.text.toString(), offset)
+                withContext(Dispatchers.IO){
+                    myViewModel.getDataAddress(address, offset)
                 }
                 progressBar.visibility = View.GONE
-                if (!result.isSuccessful){
-                    if (result.code() == 429){
-                        walletInputLayout.error = getString(R.string.too_many_requests)
-                    } else {
-                        walletInputLayout.error = getString(R.string.address_error)
-                    }
-                }
             }
         }
     }
@@ -180,7 +158,7 @@ class AddressFragment : Fragment(), CoroutineScope {
 
     companion object {
         @JvmStatic
-        fun newInstance(param1: String?) =
+        fun newInstance(param1: String) =
             AddressFragment().apply {
                 arguments = Bundle().apply {
                     putString(addressParam, param1)

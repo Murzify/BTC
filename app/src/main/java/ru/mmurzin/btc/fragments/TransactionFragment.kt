@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,7 +28,7 @@ class TransactionFragment : Fragment(), CoroutineScope {
     private val inputsAdapter = InputsAdapter()
     private val outsAdapter = OutsAdapter()
 
-    private var hash: String? = null
+    private lateinit var hash: String
 
     private lateinit var binding: FragmentTransactionBinding
 
@@ -39,9 +38,9 @@ class TransactionFragment : Fragment(), CoroutineScope {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            hash = it.getString(ARG_HASH)
-        }
+
+        hash = arguments!!.getString(ARG_HASH).toString()
+
         job = Job()
     }
 
@@ -54,32 +53,15 @@ class TransactionFragment : Fragment(), CoroutineScope {
             val clipboard = activity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             binding.apply {
                 //если фрагмент был вызван с параметром
-                hash?.let { hash ->
-                    hashInput.setText(hash)
-                    setDataTransaction()
-                }
+                setDataTransaction()
 
-                pasteBtn.setOnClickListener {
-                    clipboard.primaryClip?.let {
-                        val item = it.getItemAt(0)
-                        hashInput.setText(item.text)
-                        setDataTransaction()
-                    }
-                }
+
                 // установка адапетра входов
                 rvInputs.layoutManager = LinearLayoutManager(activity)
                 rvInputs.adapter = inputsAdapter
                 // установка адапетра выходов
                 rvOuts.layoutManager = LinearLayoutManager(activity)
                 rvOuts.adapter = outsAdapter
-
-                // отслеживание нажатия галочки на клавиатуре
-                hashInput.setOnEditorActionListener { _, i, _ ->
-                    if (i == EditorInfo.IME_ACTION_DONE){
-                        setDataTransaction()
-                    }
-                    return@setOnEditorActionListener false
-                }
 
                 // слушатель долгого нажатия для копирования текста
                 val onCopy = onCopyClickListener(activity, clipboard)
@@ -158,22 +140,18 @@ class TransactionFragment : Fragment(), CoroutineScope {
     private fun setDataTransaction(){
         binding.apply {
             launch(Dispatchers.Main) {
-                hashInputLayout.error = null
                 progressBar.visibility = View.VISIBLE
-                val result = withContext(Dispatchers.IO){
-                    myViewModel.getDataTransaction(hashInput.text.toString())
+                withContext(Dispatchers.IO){
+                    myViewModel.getDataTransaction(hash)
                 }
                 progressBar.visibility = View.GONE
-                if (!result.isSuccessful){
-                    hashInputLayout.error = getString(R.string.hash_error)
-                }
             }
         }
     }
 
     companion object {
         @JvmStatic
-        fun newInstance(param1: String?) =
+        fun newInstance(param1: String) =
             TransactionFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_HASH, param1)

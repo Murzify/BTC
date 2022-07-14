@@ -46,4 +46,6 @@ addresses"</string>
     <string name="hash_or_num">Hash/number</string>
     <string name="latest_transactions">Latest transactions</string>
     <string name="block_hash">Hash:</string>
+    <string name="search_hint">Block, transaction, address</string>
+    <string name="invalid_search">Nothing was found</string>
 </resources>
