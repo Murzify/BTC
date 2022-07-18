@@ -38,6 +38,11 @@ class SearchFragment : Fragment() {
                     }
                     return@setOnEditorActionListener false
                 }
+
+                // очистка ошибки при нажатии на поле ввода
+                searchInput.setOnClickListener{
+                    searchInputLayout.error = null
+                }
             }
         }
         return binding.root
