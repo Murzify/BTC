@@ -9,7 +9,7 @@ android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "ru.mmurzin.btc"
+        applicationId "ru.murzify.btc"
         minSdk 24
         targetSdk 32
         versionCode 1
@@ -36,7 +36,7 @@ android {
         viewBinding true
         dataBinding true
     }
-    namespace 'ru.mmurzin.btc'
+    namespace 'ru.murzify.btc'
 
 }
 
