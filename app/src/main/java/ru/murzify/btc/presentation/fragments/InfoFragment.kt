@@ -1,4 +1,4 @@
-package ru.murzify.btc.fragments
+package ru.murzify.btc.presentation.fragments
 
 import android.content.ClipboardManager
 import android.content.Context
@@ -17,7 +17,7 @@ import ru.murzify.btc.MyViewModel
 import ru.murzify.btc.R
 import ru.murzify.btc.Utils
 import ru.murzify.btc.adapters.ChartAdapter
-import ru.murzify.btc.api.blockchainInfo.responce.Value
+import ru.murzify.btc.data.api.models.Value
 import ru.murzify.btc.databinding.FragmentInfoBinding
 import java.sql.Timestamp
 import java.time.ZoneId

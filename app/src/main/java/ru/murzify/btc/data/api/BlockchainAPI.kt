@@ -1,14 +1,14 @@
-package ru.murzify.btc.api.blockchainInfo
+package ru.murzify.btc.data.api
 
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.QueryMap
-import ru.murzify.btc.api.blockchainInfo.responce.Address
-import ru.murzify.btc.api.blockchainInfo.responce.Chart
-import ru.murzify.btc.api.blockchainInfo.responce.Transaction
+import ru.murzify.btc.data.api.models.Address
+import ru.murzify.btc.data.api.models.Chart
+import ru.murzify.btc.data.api.models.Transaction
 
-interface ApiService {
+interface BlockchainAPI {
     @GET("/rawaddr/{address}")
     fun getAddressInfo(@Path("address") address: String, @QueryMap options: Map<String, String>): Call<Address>
 

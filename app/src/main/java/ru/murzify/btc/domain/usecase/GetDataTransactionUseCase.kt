@@ -1,12 +1,11 @@
 package ru.murzify.btc.domain.usecase
 
-import retrofit2.awaitResponse
-import ru.murzify.btc.api.Apifactory
-import ru.murzify.btc.api.blockchainInfo.responce.Transaction
+import ru.murzify.btc.data.api.models.Transaction
+import ru.murzify.btc.domain.repository.TransactionRepository
 
-class GetDataTransactionUseCase {
+class GetDataTransactionUseCase(private val transactionRepository: TransactionRepository) {
     suspend fun execute(hash: String): Transaction? {
-        val result = Apifactory.blockchainInfo.getTransactionInfo(hash).awaitResponse()
+        val result = transactionRepository.getDataTransaction(hash)
         return if (result.isSuccessful){
             result.body()
         } else {

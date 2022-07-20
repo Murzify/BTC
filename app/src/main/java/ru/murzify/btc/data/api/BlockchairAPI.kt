@@ -1,12 +1,12 @@
-package ru.murzify.btc.api.blockchair
+package ru.murzify.btc.data.api
 
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
-import ru.murzify.btc.api.blockchair.responce.Block
-import ru.murzify.btc.api.blockchair.responce.Info
+import ru.murzify.btc.data.api.models.Block
+import ru.murzify.btc.data.api.models.Info
 
-interface ApiService {
+interface BlockchairAPI {
     @GET("{blockchain}/stats")
     fun getBlockchainStats(@Path("blockchain") blockchain: String): Call<Info>
 

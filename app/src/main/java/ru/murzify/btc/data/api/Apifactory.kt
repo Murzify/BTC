@@ -1,9 +1,9 @@
-package ru.murzify.btc.api
+package ru.murzify.btc.data.api
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import ru.murzify.btc.api.blockchainInfo.ApiService as ApiBlockchainInfo
-import ru.murzify.btc.api.blockchair.ApiService as ApiBlockchair
+import ru.murzify.btc.data.api.BlockchainAPI as ApiBlockchainInfo
+import ru.murzify.btc.data.api.BlockchairAPI as ApiBlockchair
 
 
 object Apifactory {

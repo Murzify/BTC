@@ -1,4 +1,4 @@
-package ru.murzify.btc.fragments
+package ru.murzify.btc.presentation.fragments
 
 import android.content.ClipboardManager
 import android.content.Context

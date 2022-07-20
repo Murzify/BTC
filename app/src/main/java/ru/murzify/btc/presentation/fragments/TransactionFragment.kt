@@ -1,4 +1,4 @@
-package ru.murzify.btc.fragments
+package ru.murzify.btc.presentation.fragments
 
 
 import android.content.ClipboardManager
@@ -8,9 +8,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -58,8 +60,21 @@ class TransactionFragment : Fragment(), CoroutineScope {
                 //если фрагмент был вызван с параметром
                 setDataTransaction()
 
+                val llm = object : LinearLayoutManager(activity) {
+                    override fun onLayoutChildren(
+                        recycler: RecyclerView.Recycler?,
+                        state: RecyclerView.State?
+                    ) {
+                        try {
+                            super.onLayoutChildren(recycler, state)
+                        } catch (e: IndexOutOfBoundsException) {
+                            Toast.makeText(activity, "rv error", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+
                 // установка адапетра входов
-                rvInputs.layoutManager = LinearLayoutManager(activity)
+                rvInputs.layoutManager = llm
                 rvInputs.adapter = inputsAdapter
 
                 // установка адапетра выходов
@@ -79,11 +94,6 @@ class TransactionFragment : Fragment(), CoroutineScope {
                 fee.setOnLongClickListener(onCopy)
 
             }
-
-
-
-
-
 
         }
         return binding.root

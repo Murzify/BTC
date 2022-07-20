@@ -1,4 +1,4 @@
-package ru.murzify.btc.api.blockchair.responce
+package ru.murzify.btc.data.api.models
 
 
 data class Block(

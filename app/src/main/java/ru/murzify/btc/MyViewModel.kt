@@ -9,11 +9,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import ru.murzify.btc.Utils.timeFormat
-import ru.murzify.btc.api.blockchainInfo.responce.Address
-import ru.murzify.btc.api.blockchainInfo.responce.Chart
-import ru.murzify.btc.api.blockchainInfo.responce.Transaction
-import ru.murzify.btc.api.blockchair.responce.DataBlock
-import ru.murzify.btc.api.blockchair.responce.Info
+import ru.murzify.btc.data.api.Apifactory
+import ru.murzify.btc.data.api.models.*
+import ru.murzify.btc.data.repository.AddressRepositoryImpl
+import ru.murzify.btc.data.repository.BlockRepositoryImpl
+import ru.murzify.btc.data.repository.InfoRepositoryImpl
+import ru.murzify.btc.data.repository.TransactionRepositoryImpl
 import ru.murzify.btc.domain.usecase.*
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
@@ -29,11 +30,16 @@ class MyViewModel(application: Application) : AndroidViewModel(application), Cor
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.IO
 
-    private val getBitcoinGeneralStatsUseCase = GetBitcoinGeneralStatsUseCase()
-    private val getBitcoinChartDataUseCase = GetBitcoinChartDataUseCase()
-    private val getDataTransactionUseCase = GetDataTransactionUseCase()
-    private val getDataAddressUseCase = GetDataAddressUseCase()
-    private val getDataBlockUseCase = GetDataBlockUseCase()
+    private val blockRepository = BlockRepositoryImpl(Apifactory)
+    private val addressRepository = AddressRepositoryImpl(Apifactory)
+    private val infoRepository = InfoRepositoryImpl(Apifactory)
+    private val transactionRepository = TransactionRepositoryImpl(Apifactory)
+
+    private val getBitcoinGeneralStatsUseCase = GetBitcoinGeneralStatsUseCase(infoRepository)
+    private val getBitcoinChartDataUseCase = GetBitcoinChartDataUseCase(infoRepository)
+    private val getDataTransactionUseCase = GetDataTransactionUseCase(transactionRepository )
+    private val getDataAddressUseCase = GetDataAddressUseCase(addressRepository)
+    private val getDataBlockUseCase = GetDataBlockUseCase(blockRepository)
 
     val transaction = MutableLiveData<Transaction>()
     val info = MutableLiveData<Info>()
@@ -41,12 +47,18 @@ class MyViewModel(application: Application) : AndroidViewModel(application), Cor
     val address = MutableLiveData<Address>()
     val block = MutableLiveData<DataBlock>()
 
+
     suspend fun getDataBlock(blockId: String){
         val result = getDataBlockUseCase.execute(blockId)
+        val hash = if (blockId == "0"){
+            "000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f"
+        } else {
+            blockId
+        }
 
         result?.let {
             if (result.data.isNotEmpty()){
-                val data = result.data[getDataBlockUseCase.hash]!!
+                val data = result.data[hash]!!
                 data.block.also {
                     it.f_input_total = data.block.input_total / 100000000.0
                     val parseTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(data.block.time)

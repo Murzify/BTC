@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.murzify.btc.R
-import ru.murzify.btc.api.blockchainInfo.responce.Out
+import ru.murzify.btc.data.api.models.Out
 import ru.murzify.btc.databinding.InputOutItemBinding
 
 class OutsAdapter: RecyclerView.Adapter<OutsAdapter.InputsHolder>() {

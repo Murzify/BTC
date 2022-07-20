@@ -1,14 +1,11 @@
 package ru.murzify.btc.domain.usecase
 
-import retrofit2.awaitResponse
-import ru.murzify.btc.api.Apifactory
-import ru.murzify.btc.api.blockchainInfo.responce.Address
+import ru.murzify.btc.data.api.models.Address
+import ru.murzify.btc.domain.repository.AddressRepository
 
-class GetDataAddressUseCase {
+class GetDataAddressUseCase(private val addressRepository: AddressRepository) {
     suspend fun execute(address: String, offset: Int): Address?{
-        val result = Apifactory.blockchainInfo.getAddressInfo(address, mapOf(
-            "offset" to offset.toString()
-        )).awaitResponse()
+        val result = addressRepository.getAddressData(address, offset)
 
         return if (result.isSuccessful){
             result.body()

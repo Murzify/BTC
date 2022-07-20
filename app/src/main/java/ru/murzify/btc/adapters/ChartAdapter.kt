@@ -1,7 +1,7 @@
 package ru.murzify.btc.adapters
 
 import com.robinhood.spark.SparkAdapter
-import ru.murzify.btc.api.blockchainInfo.responce.Value
+import ru.murzify.btc.data.api.models.Value
 
 class ChartAdapter: SparkAdapter(){
     private var data:List<Value> = listOf()

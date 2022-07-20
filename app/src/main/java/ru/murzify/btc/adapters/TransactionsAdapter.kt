@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.murzify.btc.R
-import ru.murzify.btc.api.blockchainInfo.responce.Tx
+import ru.murzify.btc.data.api.models.Tx
 import ru.murzify.btc.databinding.TransactionItemBinding
 import java.sql.Timestamp
 import java.time.ZoneId

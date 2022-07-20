@@ -1,4 +1,4 @@
-package ru.murzify.btc.api.blockchainInfo.responce
+package ru.murzify.btc.data.api.models
 
 data class Chart(
     val description: String,

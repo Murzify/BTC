@@ -1,4 +1,4 @@
-package ru.murzify.btc
+package ru.murzify.btc.presentation
 
 import android.net.ConnectivityManager
 import android.net.Network
@@ -8,9 +8,10 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import ru.murzify.btc.R
 import ru.murzify.btc.databinding.ActivityMainBinding
-import ru.murzify.btc.fragments.InfoFragment
-import ru.murzify.btc.fragments.SearchFragment
+import ru.murzify.btc.presentation.fragments.InfoFragment
+import ru.murzify.btc.presentation.fragments.SearchFragment
 
 
 class MainActivity : AppCompatActivity(){

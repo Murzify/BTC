@@ -1,12 +1,11 @@
 package ru.murzify.btc.domain.usecase
 
-import retrofit2.awaitResponse
-import ru.murzify.btc.api.Apifactory
-import ru.murzify.btc.api.blockchair.responce.Info
+import ru.murzify.btc.data.api.models.Info
+import ru.murzify.btc.domain.repository.InfoRepository
 
-class GetBitcoinGeneralStatsUseCase {
+class GetBitcoinGeneralStatsUseCase(private val infoRepository: InfoRepository) {
     suspend fun execute(): Info? {
-        val result = Apifactory.blockchair.getBlockchainStats("bitcoin").awaitResponse()
+        val result = infoRepository.getGeneralStats()
         return if (result.isSuccessful){
             result.body()
         } else {
