@@ -165,7 +165,6 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_black"
                 android:text="@string/inputs"
                 android:textAlignment="center"
                 android:textSize="20sp" />
@@ -187,7 +186,6 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_black"
                 android:text="@string/outputs"
                 android:textAlignment="center"
                 android:textSize="20sp" />
